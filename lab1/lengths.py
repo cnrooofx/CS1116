@@ -55,6 +55,7 @@ print("""
     <html lang="en">
         <head>
             <meta charset="utf-8" />
+            <link rel="stylesheet" href="lengths.css" />
             <title>Lengths</title>
         </head>
         <body>

@@ -1,0 +1,16 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    text-align: right;
+}
+
+th {
+    text-align: center;
+}
+
+td, th {
+    vertical-align: middle;
+    border: 1px solid black;
+}
