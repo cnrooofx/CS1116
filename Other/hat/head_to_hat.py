@@ -5,6 +5,7 @@ enable()
 
 from cgi import FieldStorage
 from math import pi
+from html import escape
 
 print('Content-Type: text/html')
 print()
@@ -15,14 +16,15 @@ outcome = ""
 circumference_input = ""
 hat_size = 0.0
 if len(form_data) != 0:
-    circumference_input = escape(form_data.getfirst("circumference"))
+    circumference_input = escape(form_data.getfirst("circumference", ""))
     try:
         circumference = float(circumference_input)
-        hat_size = circumference / pi
+        if circumference <= 0 or circumference > 50:
+            outcome = "<p><strong>Please enter a value between 1 and 50</strong></p>"
+        else:
+            hat_size = circumference / pi
     except ValueError:
-        outcome = "<p>Error!</p>"
-
-
+        outcome = "<p><strong>Error!</strong></p>"
 
 print("""
     <!DOCTYPE html>
