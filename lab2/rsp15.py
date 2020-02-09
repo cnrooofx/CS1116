@@ -41,21 +41,16 @@ try:
         user_out = rsp_dict[user]
         computer = randint(0, 14)
         comp_out = rsp_dict[computer]
-        if computer != user:
-            i = 0
-            while i < 7:
-                if computer == ((user + i) % 15):
-                    if (user == 6 and computer == 12) or (user == 7 and computer == 9):
-                        extras = extras_dict[user][computer]
-                    outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
-                    break
-                i += 1
-            else:
-                if (computer == 6 and user == 12) or (computer == 7 and user == 9):
-                    extras = extras_dict[computer][user]
-                outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
-        else:
+        if computer == user:
             outcome = 'Computer\'s %s ties with User\'s %s' % (comp_out, user_out)
+        elif ((user - computer) % 15) > 7:
+            if (user == 6 and computer == 12) or (user == 7 and computer == 9):
+                extras = extras_dict[user][computer]
+            outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
+        else:
+            if (computer == 6 and user == 12) or (computer == 7 and user == 9):
+                extras = extras_dict[computer][user]
+            outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
     else:
         outcome = 'Error! Incorrect number'
 except ValueError:
@@ -67,7 +62,7 @@ print("""
         <head>
             <meta charset="utf-8" />
             <link rel="stylesheet" href="lengths.css" />
-            <title>Lengths</title>
+            <title>Result</title>
         </head>
         <body>
             <p>
