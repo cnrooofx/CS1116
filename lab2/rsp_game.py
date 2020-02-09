@@ -35,32 +35,31 @@ extras_dict = {6: {12: "\'s heiney"}, 7: {9: " pockets"}}
 outcome = ''
 extras = ''
 
-if len(form_data) != 0:
-    try:
-        user = int(choice)
-        if user in rsp_dict:
-            user_out = rsp_dict[user]
-            computer = randint(0, 14)
-            comp_out = rsp_dict[computer]
-            if computer != user:
-                i = 0
-                while i <= 7:
-                    if computer == ((user + i) % 15):
-                        if (user == 6 and computer == 12) or (user == 7 and computer == 9):
-                            extras = extras_dict[user][computer]
-                        outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
-                        break
-                    i += 1
-                else:
-                    if (computer == 6 and user == 12) or (computer == 7 and user == 9):
-                        extras = extras_dict[computer][user]
-                    outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
+try:
+    user = int(choice)
+    if user in rsp_dict:
+        user_out = rsp_dict[user]
+        computer = randint(0, 14)
+        comp_out = rsp_dict[computer]
+        if computer != user:
+            i = 0
+            while i < 7:
+                if computer == ((user + i) % 15):
+                    if (user == 6 and computer == 12) or (user == 7 and computer == 9):
+                        extras = extras_dict[user][computer]
+                    outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
+                    break
+                i += 1
             else:
-                outcome = 'Computer\'s %s ties with User\'s %s' % (comp_out, user_out)
+                if (computer == 6 and user == 12) or (computer == 7 and user == 9):
+                    extras = extras_dict[computer][user]
+                outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
         else:
-            outcome = 'Error! Incorrect number'
-    except ValueError:
-        outcome = 'Error! Please enter a number'
+            outcome = 'Computer\'s %s ties with User\'s %s' % (comp_out, user_out)
+    else:
+        outcome = 'Error! Incorrect number'
+except ValueError:
+    outcome = 'Error! Please enter a number'
 
 print("""
     <!DOCTYPE html>
@@ -71,40 +70,6 @@ print("""
             <title>Lengths</title>
         </head>
         <body>
-            <form action="rsp_game.py" method="get">
-                <p>Rock Fire Scissors Snake etc</p>
-                <input type="radio" name="rsp" value="0" id="rock" checked />
-                <label for="rock">Rock</label>
-                <input type="radio" name="rsp" value="1" id="fire" />
-                <label for="fire">Fire</label>
-                <input type="radio" name="rsp" value="2" id="scissors" />
-                <label for="scissors">Scissors</label>
-                <input type="radio" name="rsp" value="3" id="snake" />
-                <label for="snake">Snake</label>
-                <input type="radio" name="rsp" value="4" id="human" />
-                <label for="human">Human</label>
-                <input type="radio" name="rsp" value="5" id="tree" />
-                <label for="tree">Tree</label>
-                <input type="radio" name="rsp" value="6" id="wolf" />
-                <label for="wolf">Wolf</label>
-                <input type="radio" name="rsp" value="7" id="sponge" />
-                <label for="sponge">Sponge</label>
-                <input type="radio" name="rsp" value="8" id="paper" />
-                <label for="paper">Paper</label>
-                <input type="radio" name="rsp" value="9" id="air" />
-                <label for="air">Air</label>
-                <input type="radio" name="rsp" value="10" id="water" />
-                <label for="water">Water</label>
-                <input type="radio" name="rsp" value="11" id="dragon" />
-                <label for="dragon">Dragon</label>
-                <input type="radio" name="rsp" value="12" id="devil" />
-                <label for="devil">Devil</label>
-                <input type="radio" name="rsp" value="13" id="lightning" />
-                <label for="lightning">Lightning</label>
-                <input type="radio" name="rsp" value="14" id="gun" />
-                <label for="gun">Gun</label>
-                <input type="submit"  />
-            </form>
             <p>
                 %s
             </p>
