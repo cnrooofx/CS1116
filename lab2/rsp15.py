@@ -32,6 +32,7 @@ beats_dict = {0: {1: "pounds out", 2: "crushes", 3: "crushes", 4: "crushes", 5: 
               14: {0: "targets", 1: "fires", 2: "outclasses", 3: "shoots", 4: "shoots", 5: "targets", 6: "shoots"}}
 extras_dict = {6: {12: "\'s heiney"}, 7: {9: " pockets"}}
 
+heading = ''
 outcome = ''
 extras = ''
 
@@ -42,31 +43,42 @@ try:
         computer = randint(0, 14)
         comp_out = rsp_dict[computer]
         if computer == user:
+            heading = 'It\'s a tie'
             outcome = 'Computer\'s %s ties with User\'s %s' % (comp_out, user_out)
         elif ((user - computer) % 15) > 7:
             if (user == 6 and computer == 12) or (user == 7 and computer == 9):
                 extras = extras_dict[user][computer]
+            heading = 'User Wins!'
             outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
         else:
             if (computer == 6 and user == 12) or (computer == 7 and user == 9):
                 extras = extras_dict[computer][user]
+            heading = 'Computer Wins!'
             outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
     else:
-        outcome = 'Error! Incorrect number'
+        heading = 'Oops'
+        outcome = '<strong>Error! Incorrect number</strong>'
 except ValueError:
-    outcome = 'Error! Please enter a number'
+    heading = 'Oops'
+    outcome = '<strong>Error! Please enter a number</strong>'
 
 print("""
     <!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="lengths.css" />
+            <link rel="stylesheet" href="rsp.css" />
             <title>Result</title>
         </head>
         <body>
+            <h1>
+                %s
+            </h1>
             <p>
                 %s
             </p>
+            <p id="play-again">
+                <a href="https://cs1.ucc.ie/~cf26/cgi-bin/lab2/rsp15.html">Click here to play again</a>
+            </p>
         </body>
-    </html>""" % (outcome))
+    </html>""" % (heading, outcome))
