@@ -74,13 +74,35 @@ beats_dict = {0: {1: "pounds out", 2: "crushes", 3: "crushes", 4: "crushes", 5: 
 extra_dict = {6: {12: "\'s heiney"}, 7: {9: "pockets"}}
 
 
-for one in beats_dict:
-    for two in beats_dict[one]:
-        extra = ""
-        if (one == 6 and two == 12) or (one == 7 and two == 9):
-            extra = extra_dict[one][two]
-        print(rsp_dict[one], beats_dict[one][two], rsp_dict[two], extra)
+# for one in beats_dict:
+#     for two in beats_dict[one]:
+#         extra = ""
+#         if (one == 6 and two == 12) or (one == 7 and two == 9):
+#             extra = extra_dict[one][two]
+#         print(rsp_dict[one], beats_dict[one][two], rsp_dict[two], extra)
 
 # beats = beats_dict[0].items()  # [0][6]
 
 # print(extra_dict[6][12])
+
+
+user = 12
+computer = 14
+
+i = 1
+while i <= 7:
+    print(i, user+i)
+    if computer == ((user + i) % 15):
+        print('yes')
+        # break
+    i += 1
+
+# if ((user + 1) % 15) <= computer <= ((user + 7) % 15):
+#     print('yes')
+# elif (user + 7) % 15 <= computer and (user + 1) % 15 >= computer:
+#     print('also yes')
+print(((user + 1) % 15))
+print(((user + 7) % 15))
+
+print()
+print((computer) % 15)
