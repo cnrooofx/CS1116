@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="cgi-bin/rsp/rsp.css" />
+        <title>Rock-Scissors-Paper</title>
+    </head>
+    <body>
+        <header>
+            <h1>Rock Paper Scissors 15</h1>
+        </header>
+        <main>
+            <form action="cgi-bin/rsp/players.py" method="get">
+            <input type="radio" name="players" value="0" id="computer">
+            <label for="computer">Player vs Computer</label>
+            <input type="radio" name="players" value="1" id="player">
+            <label for="player">Player vs Player</label>
+            <input type="submit" />
+        </form>
+        </main>
+
+    </body>
+</html>
