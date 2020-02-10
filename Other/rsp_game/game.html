@@ -11,12 +11,14 @@
         </header>
         <main>
             <form action="cgi-bin/rsp/players.py" method="get">
-            <input type="radio" name="players" value="0" id="computer">
-            <label for="computer">Player vs Computer</label>
-            <input type="radio" name="players" value="1" id="player">
-            <label for="player">Player vs Player</label>
-            <input type="submit" />
-        </form>
+                <fieldset>
+                    <input type="radio" name="players" value="0" id="computer">
+                    <label for="computer">Player vs Computer</label>
+                    <input type="radio" name="players" value="1" id="player">
+                    <label for="player">Player vs Player</label>
+                </fieldset>
+                <input type="submit" />
+            </form>
         </main>
 
     </body>

@@ -40,29 +40,28 @@ try:
     player1 = int(choice1)
     if choice2 != '':
         player2 = int(choice2)
-        name1 = 'Player 1\'s'
-        name2 = 'Player 2\'s'
+        name1 = 'Player 1'
+        name2 = 'Player 2'
     else:
         player2 = randint(0, 14)
-        name1 = 'Player\'s'
-        name2 = 'Computer\'s'
-
+        name1 = 'Player'
+        name2 = 'Computer'
     if player1 in rsp_dict and player2 in rsp_dict:
         player1_out = rsp_dict[player1]
         player2_out = rsp_dict[player2]
         if player2 == player1:
             heading = 'It\'s a tie'
-            outcome = '%s %s ties with %s %s' % (name2, player2_out, name1, player1_out)
+            outcome = '%s\'s %s ties with %s\'s %s' % (name2, player2_out, name1, player1_out)
         elif ((player1 - player2) % 15) > 7:
             if (player1 == 6 and player2 == 12) or (player1 == 7 and player2 == 9):
                 extras = extras_dict[player1][player2]
             heading = '%s Wins!' % (name1)
-            outcome = '%s %s %s %s %s%s' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
+            outcome = '%s\'s %s %s %s\'s %s%s' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
         else:
             if (player2 == 6 and player1 == 12) or (player2 == 7 and player1 == 9):
                 extras = extras_dict[player2][player1]
             heading = '%s Wins!' % (name2)
-            outcome = '%s %s %s %s %s%s' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
+            outcome = '%s\'s %s %s %s\'s %s%s' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
     else:
         heading = 'Oops'
         outcome = '<strong>Error! Incorrect number</strong>'
