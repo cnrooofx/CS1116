@@ -1,3 +1,4 @@
+from random import shuffle
 
 rsp_dict = {0: 'Rock', 1: 'Fire', 2: 'Scissors', 3: 'Snake', 4: 'Human',
             5: 'Tree', 6: 'Wolf', 7: 'Sponge', 8: 'Paper', 9: 'Air',
@@ -106,3 +107,24 @@ print(((user - computer) % 15))
 
 # print()
 # print((computer) % 15)
+
+player1 = ["""<input type="radio" name="rsp1" value="0" id="rock1" checked />
+<label for="rock1">Rock</label>""", """<input type="radio" name="rsp1" value="1" id="fire1" />
+<label for="fire1">Fire</label>""", """<input type="radio" name="rsp1" value="2" id="scissors1" />
+<label for="scissors1">Scissors</label>""", """<input type="radio" name="rsp1" value="3" id="snake1" />
+<label for="snake1">Snake</label>""", """<input type="radio" name="rsp1" value="4" id="human1" />
+<label for="human1">Human</label>""", """<input type="radio" name="rsp1" value="5" id="tree1" />
+<label for="tree1">Tree</label>""", """<input type="radio" name="rsp1" value="6" id="wolf1" />
+<label for="wolf1">Wolf</label>""", """<input type="radio" name="rsp1" value="7" id="sponge1" />
+<label for="sponge1">Sponge</label>""", """<input type="radio" name="rsp1" value="8" id="paper1" />
+<label for="paper1">Paper</label>""", """<input type="radio" name="rsp1" value="9" id="air1" />
+<label for="air1">Air</label>""", """<input type="radio" name="rsp1" value="10" id="water1" />
+<label for="water1">Water</label>""", """<input type="radio" name="rsp1" value="11" id="dragon1" />
+<label for="dragon1">Dragon</label>""", """<input type="radio" name="rsp1" value="12" id="devil1" />
+<label for="devil1">Devil</label>""", """<input type="radio" name="rsp1" value="13" id="lightning1" />
+<label for="lightning1">Lightning</label>""", """<input type="radio" name="rsp1" value="14" id="gun1" />
+<label for="gun1">Gun</label>"""]
+
+shuffle(player1)
+
+print(player1)

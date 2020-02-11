@@ -51,17 +51,22 @@ try:
         player2_out = rsp_dict[player2]
         if player2 == player1:
             heading = 'It\'s a tie'
-            outcome = '%s\'s %s ties with %s\'s %s' % (name2, player2_out, name1, player1_out)
+            outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<p>%s\'s %s ties with %s\'s %s</p>' % (name2, player2_out, name1, player1_out)
         elif ((player1 - player2) % 15) > 7:
             if (player1 == 6 and player2 == 12) or (player1 == 7 and player2 == 9):
                 extras = extras_dict[player1][player2]
             heading = '%s Wins!' % (name1)
-            outcome = '%s\'s %s %s %s\'s %s%s' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
+            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
+            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
+            outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
         else:
             if (player2 == 6 and player1 == 12) or (player2 == 7 and player1 == 9):
                 extras = extras_dict[player2][player1]
             heading = '%s Wins!' % (name2)
-            outcome = '%s\'s %s %s %s\'s %s%s' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
+            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player2, player2_out)
+            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
     else:
         heading = 'Oops'
         outcome = '<strong>Error! Incorrect number</strong>'
@@ -78,14 +83,19 @@ print("""
             <title>RSP | Result</title>
         </head>
         <body>
-            <h1>
+            <header>
+                <h1>
+                    Rock Scissors Paper 15
+                </h1>
+            </header>
+            <main>
+                <h2>
+                    %s
+                </h2>
                 %s
-            </h1>
-            <p>
-                %s
-            </p>
-            <p>
-                <a href="https://cs1.ucc.ie/~cf26/game.html">Click here to play again</a>
-            </p>
+                <p class="again">
+                    <a href="https://cs1.ucc.ie/~cf26/game.html">Click here to play again</a>
+                </p>
+            </main>
         </body>
     </html>""" % (heading, outcome))
