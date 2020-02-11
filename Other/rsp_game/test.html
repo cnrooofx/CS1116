@@ -82,8 +82,14 @@
               <input type="radio" name="players" value="1" id="player">
               <label for="player">Player vs Player</label>
           </form>
+          <form action="rsp_game.py" method="get">
+              <input type="text" name="name" value="Player 1" id="computer">
+              <label for="computer">What is your name Player 1?</label>
+              <input type="text" name="name" value="Player 2" id="player">
+              <label for="player">What is your name Player 2?</label>
+          </form>
           <p>
-              %s
+              <a href="https://cs1.ucc.ie/~cf26/cgi-bin/rsp/game.html"></a>Click here to play again</a>
           </p>
       </body>
   </html>

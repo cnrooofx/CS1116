@@ -9,7 +9,8 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-choice = form_data.getfirst('rsp', '')
+choice1 = form_data.getfirst('rsp1', '')
+choice2 = form_data.getfirst('rsp2', '')
 
 rsp_dict = {0: 'Rock', 1: 'Fire', 2: 'Scissors', 3: 'Snake', 4: 'Human',
             5: 'Tree', 6: 'Wolf', 7: 'Sponge', 8: 'Paper', 9: 'Air',
@@ -36,42 +37,65 @@ outcome = ''
 extras = ''
 
 try:
-    user = int(choice)
-    if user in rsp_dict:
-        user_out = rsp_dict[user]
-        computer = randint(0, 14)
-        comp_out = rsp_dict[computer]
-        if computer != user:
-            i = 0
-            while i < 7:
-                if computer == ((user + i) % 15):
-                    if (user == 6 and computer == 12) or (user == 7 and computer == 9):
-                        extras = extras_dict[user][computer]
-                    outcome = 'User\'s %s %s Computer\'s %s%s' % (user_out, beats_dict[user][computer], comp_out, extras)
-                    break
-                i += 1
-            else:
-                if (computer == 6 and user == 12) or (computer == 7 and user == 9):
-                    extras = extras_dict[computer][user]
-                outcome = 'Computer\'s %s %s User\'s %s%s' % (comp_out, beats_dict[computer][user], user_out, extras)
-        else:
-            outcome = 'Computer\'s %s ties with User\'s %s' % (comp_out, user_out)
+    player1 = int(choice1)
+    if choice2 != '':
+        player2 = int(choice2)
+        name1 = 'Player 1'
+        name2 = 'Player 2'
     else:
-        outcome = 'Error! Incorrect number'
+        player2 = randint(0, 14)
+        name1 = 'Player'
+        name2 = 'Computer'
+    if player1 in rsp_dict and player2 in rsp_dict:
+        player1_out = rsp_dict[player1]
+        player2_out = rsp_dict[player2]
+        if player2 == player1:
+            heading = 'It\'s a tie'
+            outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<p>%s\'s %s ties with %s\'s %s</p>' % (name2, player2_out, name1, player1_out)
+        elif ((player1 - player2) % 15) > 7:
+            if (player1 == 6 and player2 == 12) or (player1 == 7 and player2 == 9):
+                extras = extras_dict[player1][player2]
+            heading = '%s Wins!' % (name1)
+            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
+            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
+            outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
+        else:
+            if (player2 == 6 and player1 == 12) or (player2 == 7 and player1 == 9):
+                extras = extras_dict[player2][player1]
+            heading = '%s Wins!' % (name2)
+            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player2, player2_out)
+            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
+    else:
+        heading = 'Oops'
+        outcome = '<strong>Error! Incorrect number</strong>'
 except ValueError:
-    outcome = 'Error! Please enter a number'
+    heading = 'Oops'
+    outcome = '<strong>Error! Please enter a number</strong>'
 
 print("""
     <!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="lengths.css" />
-            <title>Lengths</title>
+            <link rel="stylesheet" href="rsp.css" />
+            <title>RSP | Result</title>
         </head>
         <body>
-            <p>
+            <header>
+                <h1>
+                    Rock Scissors Paper 15
+                </h1>
+            </header>
+            <main>
+                <h2>
+                    %s
+                </h2>
                 %s
-            </p>
+                <p class="again">
+                    <a href="https://cs1.ucc.ie/~cf26/game.html">Click here to play again</a>
+                </p>
+            </main>
         </body>
-    </html>""" % (outcome))
+    </html>""" % (heading, outcome))
