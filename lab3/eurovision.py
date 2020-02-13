@@ -27,14 +27,11 @@ try:
             form += """<option value="%s">%s</option>""" % (row['country'], row['country'])
     if len(form_data) != 0:
         cursor.execute("""SELECT * FROM winners WHERE country = %s""", (country))
-        print(cursor.fetchall())
-        if len(cursor.fetchall()) != 0:
+        if cursor.rowcount != 0:
             output = """<table>
                 <tr><th colspan="4">Eurovision Winners from %s</th></tr>
                 <tr><th>Year</th><th>Song</th><th>Performer</th><th>Points</th></tr>""" % (country)
             for row in cursor.fetchall():
-                print(row)
-                output += 'helloooooo'
                 output += """<tr>
                                 <td>%s</td>
                                 <td>%s</td>
