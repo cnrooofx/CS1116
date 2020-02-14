@@ -53,7 +53,10 @@ if len(form_data) != 0:
         connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
         # connection = db.connect('localhost', 'cf26', 'p', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
-        points = int(floor(float(points)))
+        if points:
+            points = int(floor(float(points)))
+        else:
+            points = 0
         country_name = ''
         if not country:
             country_name = '<th scope="col">Country</th>'
