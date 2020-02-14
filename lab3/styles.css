@@ -1,47 +1,51 @@
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 body {
+    background-color: #e5e5e5;
+    font-family: 'Verdana', 'Geneva', 'Helvetica', sans-serif;
     font-size: 16px;
-    background-color: #FCFCFC;
 }
-p {
+h1, p {
     margin: 0.5em;
     text-align: center;
 }
-
-/* Header */
 header {
+    background-color: #14213d;
+    background-image: linear-gradient(#14213d, 92%, #fca311);
+    border-bottom: 0.75em solid #fca311;
+    color: #fff;
     margin: 0 0 1em 0;
     padding: 2em;
 }
-h1 {
-    text-align: center;
+section {
+    border-bottom: 0.5em dotted #14213d;
+    margin: 0.5em 1em;
+    overflow-x: auto;
 }
 
 /* Form */
 form {
     padding: 0.5em 1em;
-    margin: 0 0 2em 0;
-    border: 0.2em solid #333;
+    margin: 0 1em 2em 1em;
+    border-bottom: 0.2em solid #14213d;
 }
-label, input {
-  display: block;
-}
-input, label {
-    margin: 0.5em 0.5em;
+label, input, select {
+    display: block;
+    margin: 0.5em 0;
+    padding: 0.25em;
 }
 
 /* Table */
 table {
-  width: 95%;
-    margin: 1em;
+    width: 95%;
+    margin: 0.5em 0.5em 3em 0.5em;
     border-collapse: collapse;
 }
 caption {
     margin: 1em;
-    font-size: 1.75em;
+    font-size: 1.25em;
     text-decoration: underline;
 }
 th, td {
@@ -51,20 +55,29 @@ td {
     border-bottom: 0.1em dotted #333;
 }
 th {
-    border-bottom: 0.25em double #333;
+    border-bottom: 0.3em double #333;
 }
-td ~ td, th ~  th {
-    border-left: 0.1em solid #333
+td ~ td, th ~ th {
+    border-left: 0.1em solid #333;
 }
 tr ~ tr:hover {
     background-color: #DDD;
+    box-shadow: 0 0.5em 0.5em #999;
     transition-duration: 0.5s;
     transition-timing-function: ease-out;
-    box-shadow: 0 0.5em 0.5em #999;
+}
+tr ~ tr:hover > td {
+    border: 0.1em solid #333;
 }
 
 @media screen and (min-width: 45em) {
-    label, input {
-      display: inline;
+    label, input, select {
+        display: inline;
+    }
+    table {
+        margin: 1em auto 3em auto;
+    }
+    input[type="submit"] {
+        margin-left: 2em;
     }
 }

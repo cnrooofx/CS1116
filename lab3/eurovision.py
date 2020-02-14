@@ -23,9 +23,10 @@ try:
     cursor = connection.cursor(db.cursors.DictCursor)
     cursor.execute("""SELECT DISTINCT country FROM winners""")
     form = """<form action="eurovision.py" method="get">
-        <label for="country">Select a Country: </label>
+        <label for="country">Select a Country:</label>
         <select name="country" id="country">
-        <option value=""></option>"""
+            <option value=""></option>
+            <option value="" disabled>Please select a country</option>"""
     for row in cursor.fetchall():
         if row['country'] == country:
             form += """<option value="%s" selected>%s</option>""" % (row['country'], row['country'])
@@ -33,18 +34,18 @@ try:
             form += """<option value="%s">%s</option>""" % (row['country'], row['country'])
     else:
         form += """</select>
-        <label for="points">With Minimum Points: </label>
-        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" />
+        <label for="points">With Minimum Points:</label>
+        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" size="5" />
         <input type="submit" value="Search" />
     </form>""" % (points)
     cursor.close()
     connection.close()
 except db.Error:
     form = """<form action="eurovision.py" method="get">
-        <label for="country">Select a Country: </label>
+        <label for="country">Select a Country:</label>
         <input type="text" name="country" value="%s" id="country" placeholder="e.g. Ireland" maxlength="25" />
-        <label for="points">With Minimum Points: </label>
-        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" />
+        <label for="points">With Minimum Points:</label>
+        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" size="5" />
     <input type="submit" />
 </form>""" % (country, points)
 
@@ -75,7 +76,8 @@ if len(form_data) != 0:
             cursor.execute("""SELECT * FROM winners
                             WHERE country = %s AND points >= %s""", (country, points))
         if cursor.rowcount != 0:
-            output = """<table>
+            output = """<section>
+            <table>
                 <caption>%s</caption>
                 <tr>
                     <th scope="col">Year</th>
@@ -93,8 +95,8 @@ if len(form_data) != 0:
                                     <td>%s</td>
                                     <td>%s</td>
                                 </tr>""" % (row['year'], row['country'], row['song'], row['performer'], row['points'])
-                else:
-                    output += '</table>'
+                output += """</table>
+            </section>"""
             else:
                 for row in cursor.fetchall():
                     output += """<tr>
@@ -103,8 +105,8 @@ if len(form_data) != 0:
                                     <td>%s</td>
                                     <td>%s</td>
                                 </tr>""" % (row['year'], row['song'], row['performer'], row['points'])
-                else:
-                    output += '</table>'
+                output += """</table>
+            </section>"""
         else:
             output = '<p>Sorry! There are no results matching your search. Please try again</p>'
         cursor.close()
@@ -119,12 +121,13 @@ print("""
     <html>
         <head>
             <meta charset="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             <link rel="stylesheet" href="styles.css" />
-            <title>Eurovision</title>
+            <title>Eurovision Search</title>
         </head>
         <body>
             <header>
-                <h1>Eurovision Results Search</h1>
+                <h1>Eurovision Winners Search</h1>
             </header>
             <main>
                 %s
