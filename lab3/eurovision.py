@@ -66,8 +66,12 @@ if len(form_data) != 0:
             else:
                 caption = 'Eurovision Winners'
                 cursor.execute("""SELECT * FROM winners""")
-        else:
+        elif not points:
             caption = 'Eurovision Winners from %s' % (country)
+            cursor.execute("""SELECT * FROM winners
+                            WHERE country = %s""", (country))
+        else:
+            caption = 'Eurovision Winners from %s with at least %s Points' % (country, points)
             cursor.execute("""SELECT * FROM winners
                             WHERE country = %s AND points >= %s""", (country, points))
         if cursor.rowcount != 0:
