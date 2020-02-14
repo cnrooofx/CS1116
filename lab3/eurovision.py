@@ -31,12 +31,32 @@ try:
             form += """<option value="%s" selected>%s</option>""" % (row['country'], row['country'])
         else:
             form += """<option value="%s">%s</option>""" % (row['country'], row['country'])
+<<<<<<< HEAD
     else:
         form += """</select>
         <label for="points">With Minimum Points: </label>
         <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" />
         <input type="submit" value="Search" />
     </form>""" % (points)
+=======
+    if len(form_data) != 0:
+        cursor.execute("""SELECT * FROM winners WHERE country = %s""", (country))
+        if cursor.rowcount != 0:
+            output = """<table>
+                <tr><th colspan="4">Eurovision Winners from %s</th></tr>
+                <tr><th>Year</th><th>Song</th><th>Performer</th><th>Points</th></tr>""" % (country)
+            for row in cursor.fetchall():
+                output += """<tr>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                            </tr>""" % (row['year'], row['song'], row['performer'], row['points'])
+            else:
+                output += '</table>'
+        else:
+            output = '<p>Please enter a country in the Eurovision</p>'
+>>>>>>> 348ad512104ec8352db7319737b246aabfcb07f2
     cursor.close()
     connection.close()
 except db.Error:
