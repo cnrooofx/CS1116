@@ -11,39 +11,28 @@ print()
 form_data = FieldStorage()
 players = form_data.getfirst('players', '')
 
-player1 = ["""<input type="radio" name="rsp1" value="0" id="rock1" checked />
-<label for="rock1">Rock</label>""", """<input type="radio" name="rsp1" value="1" id="fire1" />
-<label for="fire1">Fire</label>""", """<input type="radio" name="rsp1" value="2" id="scissors1" />
-<label for="scissors1">Scissors</label>""", """<input type="radio" name="rsp1" value="3" id="snake1" />
-<label for="snake1">Snake</label>""", """<input type="radio" name="rsp1" value="4" id="human1" />
-<label for="human1">Human</label>""", """<input type="radio" name="rsp1" value="5" id="tree1" />
-<label for="tree1">Tree</label>""", """<input type="radio" name="rsp1" value="6" id="wolf1" />
-<label for="wolf1">Wolf</label>""", """<input type="radio" name="rsp1" value="7" id="sponge1" />
-<label for="sponge1">Sponge</label>""", """<input type="radio" name="rsp1" value="8" id="paper1" />
-<label for="paper1">Paper</label>""", """<input type="radio" name="rsp1" value="9" id="air1" />
-<label for="air1">Air</label>""", """<input type="radio" name="rsp1" value="10" id="water1" />
-<label for="water1">Water</label>""", """<input type="radio" name="rsp1" value="11" id="dragon1" />
-<label for="dragon1">Dragon</label>""", """<input type="radio" name="rsp1" value="12" id="devil1" />
-<label for="devil1">Devil</label>""", """<input type="radio" name="rsp1" value="13" id="lightning1" />
-<label for="lightning1">Lightning</label>""", """<input type="radio" name="rsp1" value="14" id="gun1" />
-<label for="gun1">Gun</label>"""]
-
-player2 = ["""<input type="radio" name="rsp2" value="0" id="rock2" checked />
-<label for="rock2">Rock</label>""", """<input type="radio" name="rsp2" value="1" id="fire2" />
-<label for="fire2">Fire</label>""", """<input type="radio" name="rsp2" value="2" id="scissors2" />
-<label for="scissors2">Scissors</label>""", """<input type="radio" name="rsp2" value="3" id="snake2" />
-<label for="snake2">Snake</label>""", """<input type="radio" name="rsp2" value="4" id="human2" />
-<label for="human2">Human</label>""", """<input type="radio" name="rsp2" value="5" id="tree2" />
-<label for="tree2">Tree</label>""", """<input type="radio" name="rsp2" value="6" id="wolf2" />
-<label for="wolf2">Wolf</label>""", """<input type="radio" name="rsp2" value="7" id="sponge2" />
-<label for="sponge2">Sponge</label>""", """<input type="radio" name="rsp2" value="8" id="paper2" />
-<label for="paper2">Paper</label>""", """<input type="radio" name="rsp2" value="9" id="air2" />
-<label for="air2">Air</label>""", """<input type="radio" name="rsp2" value="10" id="water2" />
-<label for="water2">Water</label>""", """<input type="radio" name="rsp2" value="11" id="dragon2" />
-<label for="dragon2">Dragon</label>""", """<input type="radio" name="rsp2" value="12" id="devil2" />
-<label for="devil2">Devil</label>""", """<input type="radio" name="rsp2" value="13" id="lightning2" />
-<label for="lightning2">Lightning</label>""", """<input type="radio" name="rsp2" value="14" id="gun2" />
-<label for="gun2">Gun</label>"""]
+rsp_dict = {0: 'Dynamite', 1: 'Tornado', 2: 'Quicksand', 3: 'Pit', 4: 'Chain',
+            5: 'Gun', 6: 'Law', 7: 'Whip', 8: 'Sword', 9: 'Rock',
+            10: 'Death', 11: 'Wall', 12: 'Sun', 13: 'Camera',
+            14: 'Fire', 15: 'Chainsaw', 16: 'School', 17: 'Scissors',
+            18: 'Poison', 19: 'Cage', 20: 'Axe', 21: 'Peace', 22: 'Computer',
+            23: 'Castle', 24: 'Snake', 25: 'Blood', 26: 'Porcupine',
+            27: 'Vulture', 28: 'Monkey', 29: 'King', 30: 'Queen', 31: 'Prince',
+            32: 'Princess', 33: 'Police', 34: 'Woman', 35: 'Baby', 36: 'Man',
+            37: 'Home', 38: 'Train', 39: 'Car', 40: 'Noise', 41: 'Bicycle',
+            42: 'Tree', 43: 'Turnip', 44: 'Duck', 45: 'Wolf', 46: 'Cat',
+            47: 'Bird', 48: 'Fish', 49: 'Spider', 50: 'Cockroach', 51: 'Brain',
+            52: 'Community', 53: 'Cross', 54: 'Money', 55: 'Vampire',
+            56: 'Sponge', 57: 'Church', 58: 'Butter', 59: 'Book', 60: 'Paper',
+            61: 'Cloud', 62: 'Aeroplane', 63: 'Moon', 64: 'Grass', 65: 'Film',
+            66: 'Toilet', 67: 'Air', 68: 'Planet', 69: 'Guitar', 70: 'Bowl',
+            71: 'Cup', 72: 'Beer', 73: 'Rain', 74: 'Water', 75: 'T.V.',
+            76: 'Rainbow', 77: 'U.F.O.', 78: 'Alien', 79: 'Prayer',
+            80: 'Mountain', 81: 'Satan', 82: 'Dragon', 83: 'Diamond',
+            84: 'Platinum', 85: 'Gold', 86: 'Devil', 87: 'Fence',
+            88: 'Video Game', 89: 'Maths', 90: 'Robot', 91: 'Heart',
+            92: 'Electricity', 93: 'Lightning', 94: 'Medusa', 95: 'Power',
+            96: 'Laser', 97: 'Nuke', 98: 'Sky', 99: 'Tank', 100: 'Helicopter'}
 
 header = ''
 form = '''<p class="again">
@@ -53,21 +42,27 @@ form = '''<p class="again">
 if len(form_data) != 0:
     try:
         header = 'Choose your weapon!'
+        player1 = [key for key in rsp_dict]
+        player2 = [key for key in rsp_dict]
         shuffle(player1)
+        shuffle(player2)
         form = """
                 <form action='rsp_game.py' type='get'>
                 <fieldset>
                     <legend>Player 1</legend>"""
-        for item in player1:
-            form += item
+        for weapon in player1:
+            form += """<input type="radio" name="rsp1" value="%s" id="%s" required />
+            <label for="%s">%s</label>
+            """ % (str(weapon), rsp_dict[weapon]+'1', rsp_dict[weapon]+'1', rsp_dict[weapon])
         form += '</fieldset>'
         if players == '1':
-            shuffle(player2)
             form += """
                 <fieldset>
                     <legend>Player 2</legend>"""
-            for item in player2:
-                form += item
+            for weapon in player2:
+                form += """<input type="radio" name="rsp2" value="%s" id="%s" required />
+                <label for="%s">%s</label>
+                """ % (str(weapon), rsp_dict[weapon]+'2', rsp_dict[weapon]+'2', rsp_dict[weapon])
             form += '</fieldset>'
         form += '<input type="submit"  /></form>'
     except ValueError:
