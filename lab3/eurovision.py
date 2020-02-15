@@ -23,10 +23,9 @@ try:
     cursor = connection.cursor(db.cursors.DictCursor)
     cursor.execute("""SELECT DISTINCT country FROM winners""")
     form = """<form action="eurovision.py" method="get">
-        <label for="country">Select a Country:</label>
+        <label for="country">Search by Country:</label>
         <select name="country" id="country">
-            <option value=""></option>
-            <option value="" disabled>Please select a country</option>"""
+            <option value="" label="Please select a country"></option>"""
     for row in cursor.fetchall():
         if row['country'] == country:
             form += """<option value="%s" selected>%s</option>""" % (row['country'], row['country'])
@@ -34,7 +33,7 @@ try:
             form += """<option value="%s">%s</option>""" % (row['country'], row['country'])
     else:
         form += """</select>
-        <label for="points">With Minimum Points:</label>
+        <label for="points">And/Or Minimum Points:</label>
         <input type="text" name="points" value="%s" id="points" maxlength="3" size="5" />
         <input type="submit" value="Search" />
     </form>""" % (points)
@@ -42,12 +41,12 @@ try:
     connection.close()
 except db.Error:
     form = """<form action="eurovision.py" method="get">
-        <label for="country">Select a Country:</label>
-        <input type="text" name="country" value="%s" id="country" placeholder="e.g. Ireland" maxlength="25" />
-        <label for="points">With Minimum Points:</label>
-        <input type="text" name="points" value="%s" id="points" maxlength="3" size="5" />
-    <input type="submit" />
-</form>""" % (country, points)
+            <label for="country">Search by Country:</label>
+            <input type="text" name="country" value="%s" id="country" placeholder="e.g. Ireland" maxlength="25" />
+            <label for="points">And/Or Minimum Points:</label>
+            <input type="text" name="points" value="%s" id="points" maxlength="3" size="5" />
+        <input type="submit" />
+    </form>""" % (country, points)
 
 if len(form_data) != 0:
     try:
@@ -55,7 +54,7 @@ if len(form_data) != 0:
         # connection = db.connect('localhost', 'cf26', 'p', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
         if points:
-            points = int(ceil(float(points)))
+            points = ceil(float(points))
         else:
             points = 0
         country_name = ''
@@ -122,7 +121,7 @@ if len(form_data) != 0:
 
 print("""
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
