@@ -2,7 +2,7 @@
 
 from cgi import FieldStorage
 import pymysql as db
-from math import floor
+from math import ceil
 from html import escape
 from cgitb import enable
 enable()
@@ -35,7 +35,7 @@ try:
     else:
         form += """</select>
         <label for="points">With Minimum Points:</label>
-        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" size="5" />
+        <input type="text" name="points" value="%s" id="points" maxlength="3" size="5" />
         <input type="submit" value="Search" />
     </form>""" % (points)
     cursor.close()
@@ -45,7 +45,7 @@ except db.Error:
         <label for="country">Select a Country:</label>
         <input type="text" name="country" value="%s" id="country" placeholder="e.g. Ireland" maxlength="25" />
         <label for="points">With Minimum Points:</label>
-        <input type="text" name="points" value="%s" id="points" placeholder="Points" maxlength="3" size="5" />
+        <input type="text" name="points" value="%s" id="points" maxlength="3" size="5" />
     <input type="submit" />
 </form>""" % (country, points)
 
@@ -55,7 +55,7 @@ if len(form_data) != 0:
         # connection = db.connect('localhost', 'cf26', 'p', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
         if points:
-            points = int(floor(float(points)))
+            points = int(ceil(float(points)))
         else:
             points = 0
         country_name = ''
@@ -72,9 +72,13 @@ if len(form_data) != 0:
             cursor.execute("""SELECT * FROM winners
                             WHERE country = %s""", (country))
         else:
-            caption = 'Eurovision Winners from %s with at least %s Points' % (country, points)
-            cursor.execute("""SELECT * FROM winners
-                            WHERE country = %s AND points >= %s""", (country, points))
+            if points > 0:
+                caption = 'Eurovision Winners from %s with at least %s Points' % (country.capitalize(), points)
+                cursor.execute("""SELECT * FROM winners
+                                WHERE country = %s AND points >= %s""", (country, points))
+            else:
+                caption = 'Eurovision Winners from %s' % (country)
+                cursor.execute("""SELECT * FROM winners WHERE country = %s""", (country.capitalize()))
         if cursor.rowcount != 0:
             output = """<section>
             <table>
