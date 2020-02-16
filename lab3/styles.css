@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #ebe9e9;
+    font-family: 'Verdana', 'Geneva', 'Helvetica', sans-serif;
+    font-size: 16px;
+}
+h1, p {
+    margin: 0.5em;
+    text-align: center;
+}
+header {
+    background-color: #2f2f2f;
+    border-bottom: 0.75em solid #5e548e;
+    color: #ebe9e9;
+    margin: 0 0 1em 0;
+    padding: 1em;
+}
+section {
+    border-bottom: 0.5em dotted #5e548e;
+    margin: 0.5em 1em;
+    overflow-x: auto;
+}
+
+/* Form */
+form {
+    border-bottom: 0.2em solid #5e548e;
+    margin: 0 1em 2em 1em;
+    padding: 0.5em 1em;
+}
+label, input, select {
+    display: block;
+    margin: 0.5em 0;
+    padding: 0.25em;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    margin: 0.5em 0.15em 3em 0.15em;
+    width: 98%;
+}
+caption {
+    font-size: 1.25em;
+    margin: 1em;
+    text-decoration: underline;
+}
+th, td {
+    padding: 0.75em;
+}
+td {
+    border-bottom: 0.1em dotted #333;
+}
+th {
+    border-bottom: 0.3em double #333;
+}
+td ~ td, th ~ th {
+    border-left: 0.1em solid #333;
+}
+tr ~ tr:hover {
+    background-color: #D6D4D4;
+    box-shadow: 0 0.5em 0.5em #A2A2A2;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+tr ~ tr:hover > td {
+    border: 0.1em solid #333;
+}
+
+@media screen and (min-width: 45em) {
+    label, input, select {
+        display: inline;
+    }
+    table {
+        margin: 1em auto 3em auto;
+    }
+    input[type="submit"] {
+        margin-left: 2em;
+    }
+}
