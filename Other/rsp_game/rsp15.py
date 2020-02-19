@@ -2,6 +2,7 @@
 
 from cgi import FieldStorage
 from random import randint
+from html import escape
 from cgitb import enable
 enable()
 
@@ -9,8 +10,10 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-choice1 = form_data.getfirst('rsp1', '')
-choice2 = form_data.getfirst('rsp2', '')
+choice1 = escape(form_data.getfirst('rsp1', '').strip())
+choice2 = escape(form_data.getfirst('rsp2', '').strip())
+name1 = escape(form_data.getfirst('name1', 'Player 1').strip())
+name2 = escape(form_data.getfirst('name2', 'Player 2').strip())
 
 rsp_dict = {0: 'Rock', 1: 'Fire', 2: 'Scissors', 3: 'Snake', 4: 'Human',
             5: 'Tree', 6: 'Wolf', 7: 'Sponge', 8: 'Paper', 9: 'Air',
@@ -38,14 +41,14 @@ extras = ''
 
 try:
     player1 = int(choice1)
-    if choice2 != '':
-        player2 = int(choice2)
-        name1 = 'Player 1'
-        name2 = 'Player 2'
-    else:
+    if choice2 == '':
         player2 = randint(0, 14)
-        name1 = 'Player'
+        if name1 == 'Player 1':
+            name1 = 'Player'
         name2 = 'Computer'
+
+    else:
+        player2 = int(choice2)
     if player1 in rsp_dict and player2 in rsp_dict:
         player1_out = rsp_dict[player1]
         player2_out = rsp_dict[player2]

@@ -48,6 +48,8 @@ if len(form_data) != 0:
         shuffle(player2)
         form = """
                 <form action='rsp101.py' type='get'>
+                <label for="name1">Player 1 Name: </label>
+                <input type="text" name="name1" value="" maxlength="15" size="15" id="name1" />
                 <fieldset>
                     <legend>Player 1</legend>"""
         for weapon in player1:
@@ -56,6 +58,8 @@ if len(form_data) != 0:
             """ % (str(weapon), rsp_dict[weapon]+'1', rsp_dict[weapon]+'1', rsp_dict[weapon])
         form += '</fieldset>'
         if players == '1':
+            form += """<label for="name1">Player 2 Name: </label>
+                <input type="text" name="name2" value="" maxlength="15" size="15" id="name2" />"""
             form += """
                 <fieldset>
                     <legend>Player 2</legend>"""
