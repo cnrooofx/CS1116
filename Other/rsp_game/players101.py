@@ -47,7 +47,7 @@ if len(form_data) != 0:
         shuffle(player1)
         shuffle(player2)
         form = """
-                <form action='rsp_game.py' type='get'>
+                <form action='rsp101.py' type='get'>
                 <fieldset>
                     <legend>Player 1</legend>"""
         for weapon in player1:

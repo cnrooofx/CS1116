@@ -39,6 +39,15 @@ img {
 .again {
     padding: 4em 0.5em 0.5em 0.5em;
 }
+section {
+    background-color: #fff;
+    border: 0.25em solid #333;
+    border-radius: 1em;
+    box-shadow: 0 1em 1em #999;
+    margin: 1em auto;
+    padding: 0.5em;
+    width: 90%;
+}
 
 /* Form */
 form {
@@ -66,5 +75,8 @@ input[type="submit"] {
 @media screen and (min-width: 45em) {
     img {
         padding: 3em;
+    }
+    section {
+        width: 85%;
     }
 }

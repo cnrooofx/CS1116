@@ -60,31 +60,31 @@ try:
         if player2 == player1:
             heading = 'It\'s a tie'
             if player1 in gifs:
-                outcome += '<figure><img src="img/%s.gif" alt="%s"  /></figure>' % (player1, player1_out)
+                outcome += '<figure><img src="img101/%s.gif" alt="%s"  /></figure>' % (player1, player1_out)
             else:
-                outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+                outcome += '<figure><img src="img101/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
             outcome += '<p>%s\'s %s ties with %s\'s %s</p>' % (name1, player1_out, name2, player2_out)
         elif ((player1 - player2) % 101) > 50:
             heading = '%s Wins!' % (name1)
             if player1 in gifs:
-                outcome += '<figure><img src="img/%s.gif" alt="%s"  />' % (player1, player1_out)
+                outcome += '<figure><img src="img101/%s.gif" alt="%s"  />' % (player1, player1_out)
             else:
-                outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
+                outcome += '<figure><img src="img101/%s.png" alt="%s"  />' % (player1, player1_out)
             if player2 in gifs:
-                outcome += '<img src="img/%s.gif" alt="%s"  /></figure>' % (player2, player2_out)
+                outcome += '<img src="img101/%s.gif" alt="%s"  /></figure>' % (player2, player2_out)
             else:
-                outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
+                outcome += '<img src="img101/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
             outcome += '<p>%s %s%s%s</p>' % (player1_out.capitalize(), beats_dict[player1][player2][0], player2_out, beats_dict[player1][player2][1])
         else:
             heading = '%s Wins!' % (name2)
             if player2 in gifs:
-                outcome += '<figure><img src="img/%s.gif" alt="%s" />' % (player2, player2_out)
+                outcome += '<figure><img src="img101/%s.gif" alt="%s" />' % (player2, player2_out)
             else:
-                outcome += '<figure><img src="img/%s.png" alt="%s" />' % (player2, player2_out)
+                outcome += '<figure><img src="img101/%s.png" alt="%s" />' % (player2, player2_out)
             if player1 in gifs:
-                outcome += '<img src="img/%s.gif" alt="%s" /></figure>' % (player1, player1_out)
+                outcome += '<img src="img101/%s.gif" alt="%s" /></figure>' % (player1, player1_out)
             else:
-                outcome += '<img src="img/%s.png" alt="%s" /></figure>' % (player1, player1_out)
+                outcome += '<img src="img101/%s.png" alt="%s" /></figure>' % (player1, player1_out)
             outcome += '<p>%s %s%s%s</p>' % (player2_out.capitalize(), beats_dict[player2][player1][0], player1_out, beats_dict[player2][player1][1])
     else:
         heading = 'Oops'
