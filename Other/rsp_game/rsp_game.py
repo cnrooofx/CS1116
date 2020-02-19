@@ -36,8 +36,10 @@ rsp_dict = {0: 'dynamite', 1: 'tornado', 2: 'quicksand', 3: 'pit', 4: 'chain',
             92: 'electricity', 93: 'lightning', 94: 'medusa', 95: 'power',
             96: 'laser', 97: 'nuke', 98: 'sky', 99: 'tank', 100: 'helicopter'}
 
-dictionary = open('dictionary.txt', 'r').read()
-beats_dict = ast.literal_eval(dictionary)
+gifs = [18, 35, 39, 48, 54, 75, 84, 85, 88, 90]
+
+file = open('dictionary.txt', 'r')
+beats_dict = ast.literal_eval(file.read())
 
 outcome = ''
 extras = ''
@@ -57,30 +59,41 @@ try:
         player2_out = rsp_dict[player2]
         if player2 == player1:
             heading = 'It\'s a tie'
-            # outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            if player1 in gifs:
+                outcome += '<figure><img src="img/%s.gif" alt="%s"  /></figure>' % (player1, player1_out)
+            else:
+                outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
             outcome += '<p>%s\'s %s ties with %s\'s %s</p>' % (name1, player1_out, name2, player2_out)
         elif ((player1 - player2) % 101) > 50:
-            # if (player1 == 6 and player2 == 12) or (player1 == 7 and player2 == 9):
-            #     extras = extras_dict[player1][player2]
             heading = '%s Wins!' % (name1)
-            # outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
-            # outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
-            outcome += '<p>%s %s %s%s</p>' % (player1_out.capitalize(), beats_dict[player1][player2], player2_out, extras)
-            #             Rock beats scissors (extra)
+            if player1 in gifs:
+                outcome += '<figure><img src="img/%s.gif" alt="%s"  />' % (player1, player1_out)
+            else:
+                outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
+            if player2 in gifs:
+                outcome += '<img src="img/%s.gif" alt="%s"  /></figure>' % (player2, player2_out)
+            else:
+                outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
+            outcome += '<p>%s %s%s%s</p>' % (player1_out.capitalize(), beats_dict[player1][player2][0], player2_out, beats_dict[player1][player2][1])
         else:
-            # if (player2 == 6 and player1 == 12) or (player2 == 7 and player1 == 9):
-            #     extras = extras_dict[player2][player1]
             heading = '%s Wins!' % (name2)
-            # outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player2, player2_out)
-            # outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
-            outcome += '<p>%s %s %s%s</p>' % (player2_out.capitalize(), beats_dict[player2][player1], player1_out, extras)
-            #             Rock beats scissors (extra)
+            if player2 in gifs:
+                outcome += '<figure><img src="img/%s.gif" alt="%s" />' % (player2, player2_out)
+            else:
+                outcome += '<figure><img src="img/%s.png" alt="%s" />' % (player2, player2_out)
+            if player1 in gifs:
+                outcome += '<img src="img/%s.gif" alt="%s" /></figure>' % (player1, player1_out)
+            else:
+                outcome += '<img src="img/%s.png" alt="%s" /></figure>' % (player1, player1_out)
+            outcome += '<p>%s %s%s%s</p>' % (player2_out.capitalize(), beats_dict[player2][player1][0], player1_out, beats_dict[player2][player1][1])
     else:
         heading = 'Oops'
         outcome = '</p><strong>Error! Incorrect number</strong></p>'
 except ValueError:
     heading = 'Oops'
     outcome = '<p>Please choose a weapon</p>'
+
+file.close()
 
 print("""
     <!DOCTYPE html>
