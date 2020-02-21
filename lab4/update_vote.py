@@ -39,11 +39,12 @@ else:
     try:
         connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
-        cursor.execute("""SELECT * FROM candidates WHERE candidate_name = %s""", name)
+        cursor.execute("""SELECT * FROM candidates
+                          WHERE candidate_name = %s""", name)
         if cursor.rowcount != 0:
             cursor.execute("""UPDATE candidates
-                            SET total_votes = total_votes + 1
-                            WHERE candidate_name = %s""", name)
+                              SET total_votes = total_votes + 1
+                              WHERE candidate_name = %s""", name)
             connection.commit()
             output = 'Thank you. Your vote for %s has been successfully submitted.' % (name)
         else:
