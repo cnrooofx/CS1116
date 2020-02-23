@@ -3,8 +3,9 @@
     padding: 0;
 }
 body {
-    background-color: #e5e5e5;
-    font-family: 'Verdana', 'Geneva', 'Helvetica', sans-serif;
+    background-color: #E0DDCF;
+    font-family: 'Avenir', 'Geneva', 'Helvetica', sans-serif;
+
     font-size: 16px;
 }
 h1, h2, p {
@@ -14,10 +15,12 @@ h1, h2, p {
 
 /* Header */
 header {
-    background-color: #14213d;
-    padding: 1em;
+    background-color: #333745;
+    border-bottom: 0.75em solid #FE5F55;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
     color: #fff;
-    border-bottom: 0.75em solid #fca311
+    padding: 1em;
 }
 h1 {
     padding: 3em auto;
@@ -38,6 +41,15 @@ img {
 }
 .again {
     padding: 4em 0.5em 0.5em 0.5em;
+}
+section {
+    background-color: #fff;
+    border: 0.25em solid #333745;
+    border-radius: 1em;
+    box-shadow: 0 1em 1em #999;
+    margin: 2em auto;
+    padding: 0.5em;
+    width: 90%;
 }
 
 /* Form */
@@ -66,5 +78,8 @@ input[type="submit"] {
 @media screen and (min-width: 45em) {
     img {
         padding: 3em;
+    }
+    section {
+        width: 70%;
     }
 }

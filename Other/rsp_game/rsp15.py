@@ -2,6 +2,7 @@
 
 from cgi import FieldStorage
 from random import randint
+from html import escape
 from cgitb import enable
 enable()
 
@@ -9,8 +10,10 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-choice1 = form_data.getfirst('rsp1', '')
-choice2 = form_data.getfirst('rsp2', '')
+choice1 = escape(form_data.getfirst('rsp1', '').strip())
+choice2 = escape(form_data.getfirst('rsp2', '').strip())
+name1 = escape(form_data.getfirst('name1', 'Player 1').strip())
+name2 = escape(form_data.getfirst('name2', 'Player 2').strip())
 
 rsp_dict = {0: 'Rock', 1: 'Fire', 2: 'Scissors', 3: 'Snake', 4: 'Human',
             5: 'Tree', 6: 'Wolf', 7: 'Sponge', 8: 'Paper', 9: 'Air',
@@ -38,34 +41,34 @@ extras = ''
 
 try:
     player1 = int(choice1)
-    if choice2 != '':
-        player2 = int(choice2)
-        name1 = 'Player 1'
-        name2 = 'Player 2'
-    else:
+    if choice2 == '':
         player2 = randint(0, 14)
-        name1 = 'Player'
+        if name1 == 'Player 1':
+            name1 = 'Player'
         name2 = 'Computer'
+
+    else:
+        player2 = int(choice2)
     if player1 in rsp_dict and player2 in rsp_dict:
         player1_out = rsp_dict[player1]
         player2_out = rsp_dict[player2]
         if player2 == player1:
             heading = 'It\'s a tie'
-            outcome += '<figure><img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<figure><img src="img15/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
             outcome += '<p>%s\'s %s ties with %s\'s %s</p>' % (name2, player2_out, name1, player1_out)
         elif ((player1 - player2) % 15) > 7:
             if (player1 == 6 and player2 == 12) or (player1 == 7 and player2 == 9):
                 extras = extras_dict[player1][player2]
             heading = '%s Wins!' % (name1)
-            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player1, player1_out)
-            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
+            outcome += '<figure><img src="img15/%s.png" alt="%s"  />' % (player1, player1_out)
+            outcome += '<img src="img15/%s.png" alt="%s"  /></figure>' % (player2, player2_out)
             outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name1, player1_out, beats_dict[player1][player2], name2, player2_out, extras)
         else:
             if (player2 == 6 and player1 == 12) or (player2 == 7 and player1 == 9):
                 extras = extras_dict[player2][player1]
             heading = '%s Wins!' % (name2)
-            outcome += '<figure><img src="img/%s.png" alt="%s"  />' % (player2, player2_out)
-            outcome += '<img src="img/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
+            outcome += '<figure><img src="img15/%s.png" alt="%s"  />' % (player2, player2_out)
+            outcome += '<img src="img15/%s.png" alt="%s"  /></figure>' % (player1, player1_out)
             outcome += '<p>%s\'s %s %s %s\'s %s%s</p>' % (name2, player2_out, beats_dict[player2][player1], name1, player1_out, extras)
     else:
         heading = 'Oops'

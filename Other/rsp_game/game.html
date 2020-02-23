@@ -8,22 +8,54 @@
     <body>
         <header>
             <h1>
-                Rock Paper Scissors 15
+                Rock Paper Scissors!
             </h1>
         </header>
         <main>
-            <h2>
-                How many players?
-            </h2>
-            <form action="cgi-bin/rsp/players.py" method="get">
-                <fieldset>
-                    <input type="radio" name="players" value="0" id="computer">
-                    <label for="computer">Player vs Computer</label>
-                    <input type="radio" name="players" value="1" id="player">
-                    <label for="player">Player vs Player</label>
-                </fieldset>
-                <input type="submit" />
-            </form>
+            <section>
+                <h2>
+                    Rock Paper Scissors
+                </h2>
+                <form action="cgi-bin/rsp/rsp.py" method="get">
+                    <input type="radio" name="rsp" value="0" id="rock" checked />
+                    <label for="rock">Rock</label>
+                    <input type="radio" name="rsp" value="1" id="scissors">
+                    <label for="scissors">Scissors</label>
+                    <input type="radio" name="rsp" value="2" id="paper">
+                    <label for="paper">Paper</label>
+                    <input type="submit" value="Play" />
+                </form>
+            </section>
+            <section>
+                <h2>
+                    Rock Paper Scissors 15
+                </h2>
+                <p>
+                    Choose between fifteen different weapons with 105 possible outcomes.
+                </p>
+                <form action="cgi-bin/rsp/players15.py" method="get">
+                    <input type="radio" name="players" value="0" id="computer15" checked>
+                    <label for="computer15">Player vs Computer</label>
+                    <input type="radio" name="players" value="1" id="player15">
+                    <label for="player15">Player vs Player</label>
+                    <input type="submit" value="Play" />
+                </form>
+            </section>
+            <section>
+                <h2>
+                    Rock Paper Scissors 101
+                </h2>
+                <p>
+                    Complete madness. Choose between <em>one hundred and one</em> different weapons for a grand total of 5050 possible outcomes. Only a 0.99&percnt; chance of a tie.
+                </p>
+                <form action="cgi-bin/rsp/players101.py" method="get">
+                    <input type="radio" name="players" value="0" id="computer101" checked>
+                    <label for="computer101">Player vs Computer</label>
+                    <input type="radio" name="players" value="1" id="player101">
+                    <label for="player101">Player vs Player</label>
+                    <input type="submit" value="Play" />
+                </form>
+            </section>
         </main>
     </body>
 </html>
