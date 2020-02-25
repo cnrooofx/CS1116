@@ -11,12 +11,13 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-name = escape(form_data.getfirst('name', '').strip())
 
+name = ''
 output = ''
 
-if len(form_data) != 0 or name != '':
+if len(form_data) != 0:
     try:
+        name = escape(form_data.getfirst('name', '').strip())
         connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
         cursor.execute("""SELECT candidate_name FROM candidates""")
@@ -31,6 +32,7 @@ if len(form_data) != 0 or name != '':
         connection.close()
     except db.Error:
         output = 'Sorry. We are experiencing problems at the moment, please try again later.'
+
 print("""
     <!DOCTYPE html>
     <html lang="en">

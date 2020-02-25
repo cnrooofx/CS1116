@@ -29,14 +29,13 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-name = escape(form_data.getfirst('candidate_name', '')).strip()
-
 output = ''
 
 if voted == 'yes':
     output = 'You have already submitted your vote.'
 else:
     try:
+        name = escape(form_data.getfirst('candidate_name', '')).strip()
         connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
         cursor = connection.cursor(db.cursors.DictCursor)
         cursor.execute("""SELECT * FROM candidates
@@ -49,6 +48,8 @@ else:
             output = 'Thank you. Your vote for %s has been successfully submitted.' % (name)
         else:
             output = 'Error! Candidate does not exist.'
+        cursor.close()
+        connection.close()
     except db.Error:
         output = 'Sorry. We are experiencing problems at the moment, please try again later.'
 
