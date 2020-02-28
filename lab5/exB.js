@@ -25,6 +25,8 @@ function draw() {
             r : (radius + getRandomNumber(-10, 10)),
             xChange : getRandomNumber(-10, 10),
             yChange : getRandomNumber(-10, 10)
+            // xChange : getRandomNumber(-10, 10),
+            // yChange : getRandomNumber(-10, 10)
         };
         balls.push(ball);
     }
@@ -36,12 +38,18 @@ function draw() {
         // if (edges(ball)) {
         // }
         edges(ball)
-        ball.x = ball.x + ball.xChange;
-        ball.y = ball.y + ball.yChange;
-        ball.yChange = ball.yChange + gravity;
-        for (let ball2 of balls) {
-            collides(ball, ball2);
-        }
+        // for (let ball2 of balls) {
+        //     if (collides(ball, ball2)) {
+        //         ball.xChange = (ball.xChange * -1);
+        //         ball.yChange = ((ball.yChange + gravity) * -1);
+        //         ball2.xChange = (ball2.xChange * -1);
+        //         ball2.yChange = ((ball2.yChange + gravity) * -1);
+        //     } else {
+                ball.x = ball.x + ball.xChange;
+                ball.y = ball.y + ball.yChange;
+                ball.yChange = ball.yChange + gravity;
+            // }
+        // }
         // if (ball.x <= (2 * ball.radius)) {
         //     ball.xChange = width;
         // } else if (ball.y <= (2 * ball.radius)) {
@@ -51,24 +59,36 @@ function draw() {
 }
 
 function collides(ball, ball2) {
-    let distance = Math.sqrt((((ball.x - ball2.x) ** 2) + ((ball.y - ball2.y) ** 2)));
+    let ball_next_x
+    let ball_next_y
+    let ball2_next_x
+    let ball2_next_y
+    let distance = Math.sqrt(((((ball.x + ball.xChange) - (ball2.x + ball2.xChange)) ** 2) + (((ball.y + ball.yChange) - (ball2.y + ball2.yChange)) ** 2)));
     if (distance < (ball.r + ball2.r)) {
-        ball.xChange = (ball.xChange * -1);
-        ball.yChange = ((ball.yChange + gravity) * -1);
-        ball2.xChange = (ball2.xChange * -1);
-        ball2.yChange = ((ball2.yChange + gravity) * -1);
+        return true;
+        // ball.xChange = (ball.xChange * -1);
+        // ball.yChange = ((ball.yChange + gravity) * -1);
+        // ball2.xChange = (ball2.xChange * -1);
+        // ball2.yChange = ((ball2.yChange + gravity) * -1);
     }
 }
  function edges(ball) {
+    // Top
     if (((ball.y + ball.yChange) - radius) < 0) {
         ball.xChange = (ball.xChange * -1);
         ball.yChange = (ball.yChange * -1);
+    // Bottom
     } else if (((ball.y + ball.yChange) + radius) > height) {
         // ball.xChange = (ball.xChange * -1);
         ball.yChange = (ball.yChange * -1);
         return true;
-    } else if ((((ball.x + ball.xChange) + radius) > width) ||
-        ((ball.x + ball.xChange) - radius) < 0) {
+    // Right
+    } else if (((ball.x + ball.xChange) + radius) > width) {
+        ball.xChange = (ball.xChange * -1);
+        ball.yChange = (ball.yChange * -1);
+        return true;
+    // Left
+    } else if (((ball.x + ball.xChange) - radius) < 0) {
         ball.xChange = (ball.xChange * -1);
         ball.yChange = (ball.yChange * -1);
         return true;
