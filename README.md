@@ -26,3 +26,15 @@ Web Development II
 
 - Eurovision
   - Searches eurovision database for results and returns a table
+
+## Lab 4
+
+- Insert Candidate
+- Update Vote
+
+## Lab 5
+
+- Exercise A
+  - Drawing with connecting points
+- Exercise B
+  - Bouncing balls
