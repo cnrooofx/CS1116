@@ -7,6 +7,7 @@ let intervalId;
 let body = [];
 
 let size;
+let halfSize;
 let apple_radius;
 let length = 1;
 let collided = false;
@@ -24,37 +25,17 @@ let snake = {
 let apple = {
     x : getRandomNumber(2, 22),
     y : getRandomNumber(2, 22),
-    colour : 'red',
-    value : 2,
+    value : 4,
 }
-
-// let grid_size = 25;
-// let grid = [ for (y of Array(grid_size)) [ for (x of Array(grid_size) 0 ]]
-let grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+let grid_size = 25;
+let grid = []
+for (let i = 0; i < grid_size; i += 1) {
+    let new_line = [];
+    for (let i = 0; i < grid_size; i += 1) {
+        new_line.push(0)
+    }
+    grid.push(new_line)
+}
 
 document.addEventListener('DOMContentLoaded', init, false);
 
@@ -64,18 +45,21 @@ function init() {
     width = canvas.width;
     height = canvas.height;
     size = (width / grid.length);
-    apple_radius = (size*0.45)
-    intervalId = window.setInterval(main, 100);
-    // window.setInterval(draw, 120)
+    halfSize = (size / 2);
+    apple_radius = (size*0.45);
+    grid[apple.y][apple.x] = 2;
+    intervalId = window.setInterval(main, 120);
     window.addEventListener('keydown', activate, false);
 }
 
 function main() {
+    if (collided) {
+        stop()
+        window.alert('You lose :(');
+    }
     if (moveUp || moveDown || moveLeft || moveRight) {
         body.push([snake.y, snake.x]);
     }
-    context.clearRect(0, 0, width, height);
-    grid[apple.y][apple.x] = 2;
     if (body.length > length) {
         let tail = body.shift();
         grid[tail[0]][tail[1]] = 0;
@@ -84,14 +68,12 @@ function main() {
         length += apple.value;
         apple.x = getRandomNumber(0, grid.length-1);
         apple.y = getRandomNumber(0, grid.length-1);
-        apple.value = 1;
+        apple.value = getRandomNumber(1, 3);
+        grid[apple.y][apple.x] = 2;
     }
     grid[snake.y][snake.x] = 1;
-    draw()
-    if (collided) {
-        stop()
-        window.alert('You lose :(');
-    }
+    // draw()
+    draw2()
     if (moveUp) {
         snake.y--;
     } else if (moveDown) {
@@ -132,7 +114,6 @@ function activate(event) {
 function collision() {
     if ((snake.x < 0) || (snake.x > grid.length-1) ||
     (snake.y < 0) || (snake.y > grid.length-1)) {
-
         collided = true;
     } else if ((grid[snake.y][snake.x] === 1) &&
     (moveUp || moveDown || moveLeft || moveRight)) {
@@ -145,16 +126,15 @@ function stop() {
 }
 
 function draw() {
-  // console.log('draw')
+    context.clearRect(0, 0, width, height);
     let row_number = 0;
     for (let row of grid) {
         let cell_number = 0;
         for (let cell of row) {
             if (cell === 2) {
                 context.fillStyle = apple.colour;
-                // context.fillRect((cell_number*size), (row_number*size), size, size);
                 context.beginPath();
-                context.arc(((cell_number*size)+(size/2)), ((row_number*size)+(size/2)), apple_radius, 0, (2 * Math.PI));
+                context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
                 context.fill();
             } else if (cell === 1) {
                 context.fillStyle = snake.colour;
@@ -165,6 +145,43 @@ function draw() {
         row_number++
     }
 }
+
+function draw2() {
+    context.clearRect(0, 0, width, height);
+    if (apple.value > 2) {
+        context.fillStyle = 'pink';
+    } else {
+        context.fillStyle = 'red';
+    }
+
+    context.beginPath();
+    context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+    context.fill();
+    context.fillStyle = snake.colour;
+    context.beginPath();
+    context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+    context.fill();
+    if (length > 1) {
+        context.beginPath();
+        context.strokeStyle = snake.colour;
+        context.lineJoin = 'round';
+        context.lineWidth = size*0.9;
+        context.moveTo((snake.x*size)+halfSize, (snake.y*size)+halfSize);
+        for (let i = body.length-1; i >= 0; i--) {
+            let segment = body[i]
+            // console.log(segment[0]);
+            // if ((segment[1] !== snake.y) && (segment[0] !== snake.x)) {
+                context.lineTo((segment[1]*size)+halfSize, (segment[0]*size)+halfSize);
+            // }
+        }
+        context.stroke();
+        context.beginPath();
+        context.arc(((body[0][1]*size)+halfSize), ((body[0][0]*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+        context.fill();
+    }
+}
+
+// function updateScore() {}
 
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
