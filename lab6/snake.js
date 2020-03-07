@@ -23,9 +23,10 @@ let snake = {
     colour : 'green',
 }
 let apple = {
-    x : getRandomNumber(2, 22),
-    y : getRandomNumber(2, 22),
+    x : getRandomNumber(0, 24),
+    y : getRandomNumber(0, 24),
     value : 5,
+    life : 0,
 }
 let grid_size = 25;
 let grid = []
@@ -48,7 +49,7 @@ function init() {
     halfSize = size / 2;
     snake_size = size * 0.75;
     grid[apple.y][apple.x] = 2;
-    intervalId = window.setInterval(main, 120);
+    intervalId = window.setInterval(main, 100);
     window.addEventListener('keydown', activate, false);
 }
 
@@ -164,7 +165,7 @@ function drawSnake() {
 }
 
 function drawApple() {
-    if (grid[snake.y][snake.x] === 2) {
+    if ((grid[snake.y][snake.x] === 2) || (apple.life === 1))  {
         context.fillStyle = snake.colour;
         context.beginPath();
         context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), (size * 0.7), 0, (2 * Math.PI));
@@ -177,9 +178,17 @@ function drawApple() {
         //     apple.y = getRandomNumber(0, grid.length-1);
         // }
         apple.value = getRandomNumber(2, 4);
+        apple.value = getRandomNumber(1, 4);
+        if (apple.value > 3) {
+            apple.life = getRandomNumber(15, 30);
+            apple.value = 5;
+        } else {
+            apple.life = 0;
+        }
         grid[apple.y][apple.x] = 2;
     }
     if (apple.value > 3) {
+        apple.life--;
         context.fillStyle = 'pink';
     } else {
         context.fillStyle = 'red';
