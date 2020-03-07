@@ -1,6 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #2f2f2f;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    min-width: 65em;
+}
+
+/* Header */
+header {
+    background-color: #ebe9e9;
+    border-left: 1em dashed #5e548e;
+    flex: auto;
+}
+h1 {
+    color: #5e548e;
+    font-size: 6em;
+    margin: 1em;
+    text-orientation: sideways;
+    writing-mode: vertical-rl;
+}
+
+/* Main */
+main {
+    flex: 75%;
+}
 canvas {
+    background-color: #ebe9e9;
     border: 0.25em solid #000;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+p {
+    border: 0.1em solid #2f2f2f;
+    margin: 2em auto;
+    padding: 1em;
+    text-align: center;
+    width: 50%;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    margin: 1em auto;
+    width: 50%;
+}
+td, th {
+    text-align: center;
+    padding: 0.2em 0.5em;
+    border: 0.1em solid #333;
 }
