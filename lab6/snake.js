@@ -8,7 +8,7 @@ let body = [];
 
 let size;
 let halfSize;
-let apple_radius;
+let snake_size;
 let length = 1;
 let collided = false;
 
@@ -25,16 +25,16 @@ let snake = {
 let apple = {
     x : getRandomNumber(2, 22),
     y : getRandomNumber(2, 22),
-    value : 4,
+    value : 5,
 }
 let grid_size = 25;
 let grid = []
 for (let i = 0; i < grid_size; i += 1) {
     let new_line = [];
     for (let i = 0; i < grid_size; i += 1) {
-        new_line.push(0)
+        new_line.push(0);
     }
-    grid.push(new_line)
+    grid.push(new_line);
 }
 
 document.addEventListener('DOMContentLoaded', init, false);
@@ -44,9 +44,9 @@ function init() {
     context = canvas.getContext('2d');
     width = canvas.width;
     height = canvas.height;
-    size = (width / grid.length);
-    halfSize = (size / 2);
-    apple_radius = (size*0.45);
+    size = width / grid.length;
+    halfSize = size / 2;
+    snake_size = size * 0.75;
     grid[apple.y][apple.x] = 2;
     intervalId = window.setInterval(main, 120);
     window.addEventListener('keydown', activate, false);
@@ -54,7 +54,7 @@ function init() {
 
 function main() {
     if (collided) {
-        stop()
+        stop();
         window.alert('You lose :(');
     }
     if (moveUp || moveDown || moveLeft || moveRight) {
@@ -64,16 +64,10 @@ function main() {
         let tail = body.shift();
         grid[tail[0]][tail[1]] = 0;
     }
-    if (grid[snake.y][snake.x] === 2) {
-        length += apple.value;
-        apple.x = getRandomNumber(0, grid.length-1);
-        apple.y = getRandomNumber(0, grid.length-1);
-        apple.value = getRandomNumber(1, 3);
-        grid[apple.y][apple.x] = 2;
-    }
-    grid[snake.y][snake.x] = 1;
     // draw()
-    draw2()
+    drawSnake();
+    drawApple();
+    grid[snake.y][snake.x] = 1;
     if (moveUp) {
         snake.y--;
     } else if (moveDown) {
@@ -83,7 +77,7 @@ function main() {
     } else if (moveRight) {
         snake.x++;
     }
-    collision()
+    collision();
 }
 
 function activate(event) {
@@ -125,60 +119,74 @@ function stop() {
     window.clearInterval(intervalId);
 }
 
-function draw() {
-    context.clearRect(0, 0, width, height);
-    let row_number = 0;
-    for (let row of grid) {
-        let cell_number = 0;
-        for (let cell of row) {
-            if (cell === 2) {
-                context.fillStyle = apple.colour;
-                context.beginPath();
-                context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
-                context.fill();
-            } else if (cell === 1) {
-                context.fillStyle = snake.colour;
-                context.fillRect((cell_number*size+2), (row_number*size+2), size-2, size-2);
-            }
-            cell_number++;
-        }
-        row_number++
-    }
-}
+// function draw() {
+//     context.clearRect(0, 0, width, height);
+//     let row_number = 0;
+//     for (let row of grid) {
+//         let cell_number = 0;
+//         for (let cell of row) {
+//             if (cell === 2) {
+//                 context.fillStyle = apple.colour;
+//                 context.beginPath();
+//                 context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+//                 context.fill();
+//             } else if (cell === 1) {
+//                 context.fillStyle = snake.colour;
+//                 context.fillRect((cell_number*size+2), (row_number*size+2), size-2, size-2);
+//             }
+//             cell_number++;
+//         }
+//         row_number++
+//     }
+// }
 
-function draw2() {
+function drawSnake() {
     context.clearRect(0, 0, width, height);
-    if (apple.value > 2) {
-        context.fillStyle = 'pink';
-    } else {
-        context.fillStyle = 'red';
-    }
-
-    context.beginPath();
-    context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
-    context.fill();
     context.fillStyle = snake.colour;
     context.beginPath();
-    context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+    context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), snake_size*0.5, 0, (2 * Math.PI));
     context.fill();
     if (length > 1) {
         context.beginPath();
         context.strokeStyle = snake.colour;
         context.lineJoin = 'round';
-        context.lineWidth = size*0.9;
+        context.lineWidth = snake_size;
         context.moveTo((snake.x*size)+halfSize, (snake.y*size)+halfSize);
-        for (let i = body.length-1; i >= 0; i--) {
+        for (let i = body.length-2; i >= 0; i--) {
             let segment = body[i]
-            // console.log(segment[0]);
-            // if ((segment[1] !== snake.y) && (segment[0] !== snake.x)) {
-                context.lineTo((segment[1]*size)+halfSize, (segment[0]*size)+halfSize);
-            // }
+            context.lineTo((segment[1]*size)+halfSize, (segment[0]*size)+halfSize);
         }
         context.stroke();
         context.beginPath();
-        context.arc(((body[0][1]*size)+halfSize), ((body[0][0]*size)+halfSize), apple_radius, 0, (2 * Math.PI));
+        context.arc(((body[0][1]*size)+halfSize), ((body[0][0]*size)+halfSize), snake_size*0.5, 0, (2 * Math.PI));
         context.fill();
     }
+}
+
+function drawApple() {
+    if (grid[snake.y][snake.x] === 2) {
+        context.fillStyle = snake.colour;
+        context.beginPath();
+        context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), (size * 0.7), 0, (2 * Math.PI));
+        context.fill();
+        length += apple.value;
+        apple.x = getRandomNumber(0, grid.length-1);
+        apple.y = getRandomNumber(0, grid.length-1);
+        // while (grid[apple.y][apple.x] !== 1) {
+        //     apple.x = getRandomNumber(0, grid.length-1);
+        //     apple.y = getRandomNumber(0, grid.length-1);
+        // }
+        apple.value = getRandomNumber(2, 4);
+        grid[apple.y][apple.x] = 2;
+    }
+    if (apple.value > 3) {
+        context.fillStyle = 'pink';
+    } else {
+        context.fillStyle = 'red';
+    }
+    context.beginPath();
+    context.arc(((apple.x*size)+halfSize), ((apple.y*size)+halfSize), size*0.4, 0, (2 * Math.PI));
+    context.fill();
 }
 
 // function updateScore() {}
