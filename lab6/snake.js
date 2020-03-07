@@ -2,6 +2,7 @@ let canvas;
 let context;
 let width;
 let interval_id;
+let score_box;
 
 let body;
 let grid_size = 25;
@@ -24,7 +25,7 @@ let snake = {
 let apple = {
     x : 0,
     y : 0,
-    value : 5,
+    value : 9,
     life : 0,
 }
 
@@ -32,8 +33,9 @@ document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
     canvas = document.querySelector('canvas');
+    score_box = document.querySelector('#score');
     context = canvas.getContext('2d');
-    width = Math.min(window.innerWidth, window.innerHeight);
+    width = 0.95 * Math.min(window.innerWidth, window.innerHeight);
     canvas.height = canvas.width = width;
     size = width / grid_size;
     half_size = size / 2;
@@ -44,7 +46,7 @@ function init() {
     snake.colour = 'green';
     apple.x = getRandomNumber(3, 21);
     apple.y = getRandomNumber(3, 21);
-    apple.value = 5;
+    apple.value = 6;
     apple.life = 0;
     body = [];
     length = 1;
@@ -130,7 +132,7 @@ function checkApple() {
         context.arc(((snake.x*size)+half_size), ((snake.y*size)+half_size), size*0.7, 0, (2 * Math.PI));
         context.fill();
         length += apple.value;
-        // updateScore();
+        updateScore();
         newApple();
     }
     if (apple.value > 3) {
@@ -155,17 +157,18 @@ function newApple() {
         apple.x = getRandomNumber(0, grid_size-1);
         apple.y = getRandomNumber(0, grid_size-1);
     }
-    apple.value = getRandomNumber(1, 4);
-    if (apple.value > 3) {
-        apple.life = getRandomNumber(15, 30);
-        apple.value = 5;
+    let random = getRandomNumber(1, 10);
+    if (random === 5) {
+        apple.life = getRandomNumber(20, 60);
+        apple.value = 9;
     } else {
         apple.life = 0;
+        apple.value = 3;
     }
     grid[apple.y][apple.x] = 2;
 }
 function updateScore() {
-
+    score_box.innerHTML = length;
 }
 function newGrid() {
     grid = []

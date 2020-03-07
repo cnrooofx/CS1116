@@ -33,8 +33,7 @@ canvas {
     background-color: #ebe9e9;
     border: 0.25em solid #000;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 1em auto;
 }
 p {
     border: 0.1em solid #2f2f2f;
