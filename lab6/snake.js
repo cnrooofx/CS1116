@@ -1,7 +1,6 @@
 let canvas;
 let context;
 let width;
-let height;
 let interval_id;
 
 let body;
@@ -34,8 +33,8 @@ document.addEventListener('DOMContentLoaded', init, false);
 function init() {
     canvas = document.querySelector('canvas');
     context = canvas.getContext('2d');
-    width = canvas.width;
-    height = canvas.height;
+    width = Math.min(window.innerWidth, window.innerHeight);
+    canvas.height = canvas.width = width;
     size = width / grid_size;
     half_size = size / 2;
     snake_size = size * 0.75;
@@ -59,7 +58,7 @@ function init() {
 }
 
 function draw() {
-    context.clearRect(0, 0, width, height);
+    context.clearRect(0, 0, width, width);
     if (move_up) {
         snake.y -= 1;
     } else if (move_down) {
@@ -207,7 +206,7 @@ function getRandomNumber(min, max) {
 }
 
 // function test() {
-//     // context.clearRect(0, 0, width, height);
+//     // context.clearRect(0, 0, width, width);
 //     let row_number = 0;
 //     for (let row of grid) {
 //         let cell_number = 0;
