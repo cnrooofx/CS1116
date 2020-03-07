@@ -166,6 +166,8 @@ function drawSnake() {
 
 function drawApple() {
     if ((grid[snake.y][snake.x] === 2) || (apple.life === 1))  {
+        grid[apple.y][apple.x] = 0;
+        grid[snake.y][snake.x] = 1;
         context.fillStyle = snake.colour;
         context.beginPath();
         context.arc(((snake.x*size)+halfSize), ((snake.y*size)+halfSize), (size * 0.7), 0, (2 * Math.PI));
