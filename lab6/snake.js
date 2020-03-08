@@ -3,6 +3,9 @@ let context;
 let width;
 let interval_id;
 let score_box;
+let cookies;
+let table;
+let tabledata;
 
 let body;
 let grid_size = 25;
@@ -34,12 +37,15 @@ document.addEventListener('DOMContentLoaded', init, false);
 function init() {
     canvas = document.querySelector('canvas');
     score_box = document.querySelector('#score');
+    table = document.querySelectorAll('#high-score tr');
+    tabledata = document.querySelector('#high-score tbody');
     context = canvas.getContext('2d');
     width = 0.95 * Math.min(window.innerWidth, window.innerHeight);
     canvas.height = canvas.width = width;
     size = width / grid_size;
     half_size = size / 2;
     snake_size = size * 0.75;
+    leaderboard();
     newGrid();
     snake.x = getRandomNumber(2, 22);
     snake.y = getRandomNumber(2, 22);
@@ -50,6 +56,7 @@ function init() {
     apple.life = 0;
     body = [];
     length = 1;
+    updateScore();
     move_up = false;
     move_down = false;
     move_left = false;
@@ -96,11 +103,40 @@ function collision() {
     return false;
 }
 function stop() {
-    // grid[snake.y][snake.x] = 1;
-    drawSnake();
     window.alert('You lose :(');
     clearInterval(interval_id);
-    init()
+    add_to_leaderboard();
+    init();
+}
+function add_to_leaderboard() {
+    cookies = document.cookie;
+    if (length > 1) {
+        let cur_date = new Date().toLocaleString()
+        document.cookie = length + '=' + cur_date;
+    }
+}
+function leaderboard() {
+    cookies = document.cookie.split(';');
+    if (cookies) {
+        console.log(cookies.length)
+        for (let cookie of cookies) {
+            let one_cookie = cookie.split('=');
+            console.log(one_cookie);
+        }
+    } else if (table.length < 2) {
+        let row = document.createElement('tr');
+        let data1 = document.createElement('td');
+        data1.innerHTML = 'None';
+        let data2 = document.createElement('td');
+        data2.innerHTML = '---';
+        row.appendChild(data1);
+        row.appendChild(data2);
+        tabledata.appendChild(row);
+    }
+    // for (let element of table) {
+    //     console.log(element)
+    // }
+
 }
 function drawSnake() {
     context.fillStyle = snake.colour;
