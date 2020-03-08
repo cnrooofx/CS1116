@@ -1,9 +1,10 @@
+let storage;
 let canvas;
 let context;
 let width;
 let interval_id;
+
 let score_box;
-let cookies;
 let table;
 let tabledata;
 
@@ -34,6 +35,7 @@ let apple = {
 document.addEventListener('DOMContentLoaded', init, false);
 
 function init() {
+    storage = window.localStorage;
     canvas = document.querySelector('canvas');
     score_box = document.querySelector('#score');
     table = document.querySelectorAll('#high-score tr');
@@ -108,46 +110,44 @@ function stop() {
     init();
 }
 function add_to_leaderboard() {
-    cookies = document.cookie;
-    // if (cookies.length > 5) {
-    //
-    // }
     if (length > 1) {
-        let cur_date = new Date().toLocaleString()
-        document.cookie = length + '=' + cur_date + ';max-age=31536000';
+        if (storage.length > 5) {
+            let key = storage.key(0);
+            storage.removeItem(key);
+        }
+        let cur_date = new Date().toLocaleString();
+        storage.setItem(length, cur_date);
     }
-
 }
 function leaderboard() {
-    cookies = document.cookie.split(';');
-    if (cookies) {
-        console.log(cookies.length);
-        // if (cookies.length <= 5) {
-            // let max = 0;
-
-            for (let cookie of cookies) {
-                let one_cookie = cookie.split('=');
-                console.log(one_cookie)
-                // if (one_cookie[0] > max) {
-                //     max = one_cookie[0]
-                // }
+    console.log(storage.length)
+    if (storage.length > 0) {
+        if (table.length > 1) {
+            let rows = document.querySelectorAll('tr + tr');
+            if (rows) {
+                for (let element of rows) {
+                    console.log(element);
+                }
             }
-        // }
-
+        }
+        for (let i = 0; i < storage.length; i += 1) {
+            let score_value = storage.key(i);
+            let date = storage.getItem(score_value);
+            createRow(score_value, date);
+        }
     } else if (table.length < 2) {
-        let row = document.createElement('tr');
-        let data1 = document.createElement('td');
-        data1.innerHTML = 'None';
-        let data2 = document.createElement('td');
-        data2.innerHTML = '---';
-        row.appendChild(data1);
-        row.appendChild(data2);
-        tabledata.appendChild(row);
+        createRow('None', '---');
     }
-    // for (let element of table) {
-    //     console.log(element)
-    // }
-
+}
+function createRow(col1, col2) {
+    let row = document.createElement('tr');
+    let data1 = document.createElement('td');
+    data1.innerHTML = col1;
+    let data2 = document.createElement('td');
+    data2.innerHTML = col2;
+    row.appendChild(data1);
+    row.appendChild(data2);
+    tabledata.appendChild(row);
 }
 function drawSnake() {
     context.fillStyle = snake.colour;
