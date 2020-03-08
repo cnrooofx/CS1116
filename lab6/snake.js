@@ -23,12 +23,12 @@ let move_right;
 let snake = {
     x : 0,
     y : 0,
-    colour : 'green',
+    colour : '#ebe9e9',
 }
 let apple = {
     x : 0,
     y : 0,
-    value : 9,
+    value : 4,
     life : 0,
 }
 
@@ -49,10 +49,10 @@ function init() {
     newGrid();
     snake.x = getRandomNumber(2, 22);
     snake.y = getRandomNumber(2, 22);
-    snake.colour = 'green';
+    snake.colour = '#ebe9e9';
     apple.x = getRandomNumber(3, 21);
     apple.y = getRandomNumber(3, 21);
-    apple.value = 6;
+    apple.value = 4;
     apple.life = 0;
     body = [];
     length = 1;
@@ -82,12 +82,12 @@ function draw() {
     }
     checkApple();
     if (move_up || move_down || move_left || move_right) {
-        body.push([snake.y, snake.x]);
+        body.push([snake.x, snake.y]);
         grid[snake.y][snake.x] = 1;
     }
     if (body.length > length) {
         let tail = body.shift();
-        grid[tail[0]][tail[1]] = 0;
+        grid[tail[1]][tail[0]] = 0;
     }
     drawSnake();
     // test()
@@ -141,7 +141,7 @@ function leaderboard() {
 function drawSnake() {
     context.fillStyle = snake.colour;
     context.beginPath();
-    context.arc(((snake.x*size)+half_size), ((snake.y*size)+half_size), snake_size*0.5, 0, (2 * Math.PI));
+    context.arc(((snake.x*size)+half_size), ((snake.y*size)+half_size), snake_size*0.5, 0, (2*Math.PI));
     context.fill();
     if (length > 1) {
         context.beginPath();
@@ -151,11 +151,11 @@ function drawSnake() {
         context.moveTo((snake.x*size)+half_size, (snake.y*size)+half_size);
         for (let i = body.length-2; i >= 0; i--) {
             let segment = body[i]
-            context.lineTo((segment[1]*size)+half_size, (segment[0]*size)+half_size);
+            context.lineTo((segment[0]*size)+half_size, (segment[1]*size)+half_size);
         }
         context.stroke();
         context.beginPath();
-        context.arc(((body[0][1]*size)+half_size), ((body[0][0]*size)+half_size), snake_size*0.5, 0, (2 * Math.PI));
+        context.arc(((body[0][0]*size)+half_size), ((body[0][1]*size)+half_size), snake_size*0.5, 0, (2*Math.PI));
         context.fill();
     }
 }
@@ -165,7 +165,7 @@ function checkApple() {
     } else if (grid[snake.y][snake.x] === 2) {
         context.fillStyle = snake.colour;
         context.beginPath();
-        context.arc(((snake.x*size)+half_size), ((snake.y*size)+half_size), size*0.7, 0, (2 * Math.PI));
+        context.arc(((snake.x*size)+half_size), ((snake.y*size)+half_size), size*0.7, 0, (2*Math.PI));
         context.fill();
         length += apple.value;
         updateScore();
@@ -173,7 +173,7 @@ function checkApple() {
     }
     if (apple.value > 3) {
         apple.life--;
-        if (apple.life < 10 && apple.life > 0) {
+        if (apple.life % 2 === 0) {
             context.fillStyle = 'rgba(255, 0, 255, 0.25)';
         } else {
             context.fillStyle = 'rgb(255, 0, 255)';
@@ -182,7 +182,7 @@ function checkApple() {
         context.fillStyle = 'red';
     }
     context.beginPath();
-    context.arc(((apple.x*size)+half_size), ((apple.y*size)+half_size), size*0.4, 0, (2 * Math.PI));
+    context.arc(((apple.x*size)+half_size), ((apple.y*size)+half_size), size*0.4, 0, (2*Math.PI));
     context.fill();
 }
 function newApple() {
@@ -196,10 +196,10 @@ function newApple() {
     let random = getRandomNumber(1, 10);
     if (random === 5) {
         apple.life = getRandomNumber(20, 60);
-        apple.value = 9;
+        apple.value = 10;
     } else {
         apple.life = 0;
-        apple.value = 3;
+        apple.value = getRandomNumber(1, 3);
     }
     grid[apple.y][apple.x] = 2;
 }
