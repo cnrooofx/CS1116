@@ -14,7 +14,6 @@ let size;
 let half_size;
 let snake_size;
 let length;
-let collided;
 let move_up;
 let move_down;
 let move_left;
@@ -90,7 +89,6 @@ function draw() {
         grid[tail[1]][tail[0]] = 0;
     }
     drawSnake();
-    // test()
 }
 function collision() {
     if ((snake.x < 0) || (snake.x > grid_size-1) ||
@@ -103,26 +101,39 @@ function collision() {
     return false;
 }
 function stop() {
-    window.alert('You lose :(');
+    window.alert('Game Over :(\nScore: ' + length);
     clearInterval(interval_id);
+    window.removeEventListener('keydown', activate);
     add_to_leaderboard();
     init();
 }
 function add_to_leaderboard() {
     cookies = document.cookie;
+    // if (cookies.length > 5) {
+    //
+    // }
     if (length > 1) {
         let cur_date = new Date().toLocaleString()
-        document.cookie = length + '=' + cur_date;
+        document.cookie = length + '=' + cur_date + ';max-age=31536000';
     }
+
 }
 function leaderboard() {
     cookies = document.cookie.split(';');
     if (cookies) {
-        console.log(cookies.length)
-        for (let cookie of cookies) {
-            let one_cookie = cookie.split('=');
-            console.log(one_cookie);
-        }
+        console.log(cookies.length);
+        // if (cookies.length <= 5) {
+            // let max = 0;
+
+            for (let cookie of cookies) {
+                let one_cookie = cookie.split('=');
+                console.log(one_cookie)
+                // if (one_cookie[0] > max) {
+                //     max = one_cookie[0]
+                // }
+            }
+        // }
+
     } else if (table.length < 2) {
         let row = document.createElement('tr');
         let data1 = document.createElement('td');
@@ -174,12 +185,12 @@ function checkApple() {
     if (apple.value > 3) {
         apple.life--;
         if (apple.life % 2 === 0) {
-            context.fillStyle = 'rgba(255, 0, 255, 0.25)';
+            context.fillStyle = 'rgba(255, 0, 110, 0.25)';
         } else {
-            context.fillStyle = 'rgb(255, 0, 255)';
+            context.fillStyle = 'rgb(255, 0, 110)';
         }
     } else {
-        context.fillStyle = 'red';
+        context.fillStyle = '#FFA100';
     }
     context.beginPath();
     context.arc(((apple.x*size)+half_size), ((apple.y*size)+half_size), size*0.4, 0, (2*Math.PI));
@@ -193,9 +204,9 @@ function newApple() {
         apple.x = getRandomNumber(0, grid_size-1);
         apple.y = getRandomNumber(0, grid_size-1);
     }
-    let random = getRandomNumber(1, 10);
+    let random = getRandomNumber(1, 5);
     if (random === 5) {
-        apple.life = getRandomNumber(20, 60);
+        apple.life = getRandomNumber(20, 45);
         apple.value = 10;
     } else {
         apple.life = 0;
@@ -243,28 +254,3 @@ function activate(event) {
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-// function test() {
-//     // context.clearRect(0, 0, width, width);
-//     let row_number = 0;
-//     for (let row of grid) {
-//         let cell_number = 0;
-//         for (let cell of row) {
-//             if (cell === 2) {
-//                 context.fillStyle = 'rgba(255, 0, 0, 0.2)';
-//                 context.fillRect((cell_number*size+2), (row_number*size+2), size-2, size-2);
-//                 // context.beginPath();
-//                 // context.arc(((apple.x*size)+half_size), ((apple.y*size)+half_size), size*0.4, 0, (2 * Math.PI));
-//                 // context.fill();
-//             } else if (cell === 1) {
-//                 context.fillStyle = 'rgba(0, 255, 0, 0.2)';
-//                 context.fillRect((cell_number*size+2), (row_number*size+2), size-2, size-2);
-//             } else {
-//                 context.fillStyle = 'rgba(0, 0, 255, 0.2)';
-//                 context.fillRect((cell_number*size+2), (row_number*size+2), size-2, size-2);
-//             }
-//             cell_number++;
-//         }
-//         row_number++
-//     }
-// }
