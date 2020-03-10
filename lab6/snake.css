@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:400,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +9,7 @@ body {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
+    font-family: 'Inter', sans-serif;
     justify-content: space-between;
     min-width: 65em;
 }
@@ -20,6 +23,7 @@ header {
 h1 {
     color: #5e548e;
     font-size: 6em;
+    font-weight: 900;
     margin: 1em;
     text-orientation: sideways;
     writing-mode: vertical-rl;
@@ -30,8 +34,6 @@ main {
     flex: 75%;
 }
 canvas {
-    /* background-color: #ebe9e9; */
-    /* background-color: #A0A0A0; */
     border: 0.5em solid #5e548e;
     display: block;
     margin: 1em auto;

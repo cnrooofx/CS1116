@@ -111,8 +111,8 @@ function stop() {
 }
 function add_to_leaderboard() {
     if (length > 1) {
-        if (storage.length > 5) {
-            let key = storage.key(0);
+        if (storage.length >= 5) {
+            let key = storage.key(4);
             storage.removeItem(key);
         }
         let cur_date = new Date().toLocaleString();
@@ -120,22 +120,17 @@ function add_to_leaderboard() {
     }
 }
 function leaderboard() {
-    console.log(storage.length)
+    let clear = document.querySelectorAll("tr + tr");
+    for (let i = 0; i < clear.length; i += 1) {
+        tabledata.removeChild(tabledata.lastChild);
+    }
     if (storage.length > 0) {
-        if (table.length > 1) {
-            let rows = document.querySelectorAll('tr + tr');
-            if (rows) {
-                for (let element of rows) {
-                    console.log(element);
-                }
-            }
-        }
         for (let i = 0; i < storage.length; i += 1) {
             let score_value = storage.key(i);
             let date = storage.getItem(score_value);
             createRow(score_value, date);
         }
-    } else if (table.length < 2) {
+    } else /*if (table.length < 2)*/ {
         createRow('None', '---');
     }
 }
