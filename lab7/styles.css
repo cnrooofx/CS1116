@@ -1,0 +1,72 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Inter'), local('Inter-Regular'),
+         url('media/fonts/Inter-Regular.woff2') format('woff2'),
+         url('media/fonts/Inter-Regular.woff') format('woff'),
+         url('media/fonts/Inter-Regular.otf') format('opentype');
+}
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-weight: 900;
+    src: local('Inter'), local('Inter-Black'),
+         url("media/fonts/Inter-Black.woff2") format("woff2"),
+         url("media/fonts/Inter-Black.woff") format("woff"),
+         url('media/fonts/Inter-Black.otf') format('opentype');
+}
+@font-face {
+    font-display: swap;
+    font-family: 'OpenSans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('OpenSans'), local('OpenSans-Regular'),/*
+         url("media/fonts/Inter-Black.woff2") format("woff2"),
+         url("media/fonts/Inter-Black.woff") format("woff"),*/
+         url('media/fonts/OpenSans-Regular.ttf') format('truetype');
+}
+
+/* Core */
+* {
+    margin: 0;
+    padding: 0;
+}
+/* html {
+    --
+} */
+body {
+    font-family: 'OpenSans', Helvetica, Arial, sans-serif;
+    font-size: 18px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+}
+
+/* Header */
+header {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1em;
+    padding: 1em 2em;
+}
+header h1 {
+    font-size: 3em;
+    font-weight: 900;
+    padding: 0.5em;
+}
+
+/* Nav */
+nav li {
+    display: inline;
+    padding: 0.25em 1em;
+}
+
+/* Main */
+section, article {
+    border: 0.25em solid #000;
+    box-shadow: 0 1em 1em #999;
+}
