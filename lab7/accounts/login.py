@@ -20,7 +20,7 @@ if len(form_data) != 0:
     else:
         sha256_password = sha256(password.encode()).hexdigest()
         try:
-            connection = db.connect('localhost', 'userid', 'password', 'database_name')
+            connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
             cursor = connection.cursor(db.cursors.DictCursor)
             cursor.execute("""SELECT * FROM users
                               WHERE username = %s
