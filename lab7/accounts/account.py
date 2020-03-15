@@ -13,8 +13,8 @@ print()
 result = """
     <p>You are not logged in.</p>
     <ul>
-        <li><a href="accounts/login.py">Login</a></li>
-        <li><a href="accounts/register.py">Register</a></li>
+        <li><a href="login.py">Login</a></li>
+        <li><a href="register.py">Register</a></li>
     </ul>"""
 
 try:
@@ -32,9 +32,9 @@ try:
                         Hey, %s.
                     </p>
                     <ul>
-                        <li><a href="accounts/changepswd.py">Change password</a></li>
-                        <li><a href="accounts/logout.py">Logout</a></li>
-                        <li><a href="accounts/delete_account.py">Delete Account</a></li>
+                        <li><a href="changepswd.py">Change password</a></li>
+                        <li><a href="logout.py">Logout</a></li>
+                        <li><a href="delete_account.py">Delete Account</a></li>
                     </ul>""" % session_store.get('username')
             session_store.close()
 except IOError:
