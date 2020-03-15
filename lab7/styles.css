@@ -1,3 +1,5 @@
+
+/* Fonts */
 @font-face {
     font-display: swap;
     font-family: 'Inter';
@@ -11,6 +13,15 @@
 @font-face {
     font-display: swap;
     font-family: 'Inter';
+    font-weight: 700;
+    src: local('OpenSans'), local('OpenSans-Regular'),/*
+         url("media/fonts/Inter-Black.woff2") format("woff2"),
+         url("media/fonts/Inter-Black.woff") format("woff"),*/
+         url('media/fonts/Inter-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
     font-weight: 900;
     src: local('Inter'), local('Inter-Black'),
          url("media/fonts/Inter-Black.woff2") format("woff2"),
@@ -18,14 +29,26 @@
          url('media/fonts/Inter-Black.otf') format('opentype');
 }
 @font-face {
-    font-display: swap;
-    font-family: 'OpenSans';
-    font-style: normal;
-    font-weight: 400;
-    src: local('OpenSans'), local('OpenSans-Regular'),/*
-         url("media/fonts/Inter-Black.woff2") format("woff2"),
-         url("media/fonts/Inter-Black.woff") format("woff"),*/
-         url('media/fonts/OpenSans-Regular.ttf') format('truetype');
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url("media/fonts/Inter.var.woff2") format("woff2");
+}
+body {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+}
+@supports (font-variation-settings: 'wght' 375) {
+    body {
+        font-family: 'Inter var', Helvetica, Arial, sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Inter var', Helvetica, Arial, sans-serif;
+    }
 }
 
 /* Core */
@@ -40,22 +63,21 @@ html {
     --white: #FFF9FB;
 }
 body {
-    font-family: 'OpenSans', Helvetica, Arial, sans-serif;
+    background: var(--grey);
+    /* font-family: 'OpenSans', Helvetica, Arial, sans-serif; */
+    /* font-family: 'Inter', Helvetica, Arial, sans-serif; */
     font-size: 18px;
 }
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', Helvetica, Arial, sans-serif;
+    /* font-family: 'Inter', Helvetica, Arial, sans-serif; */
     font-weight: 400;
 }
 
 /* Header */
-header {
-    background-color: var(--black);
+header, nav {
+    background: var(--black);
     color: var(--white);
-    border: 1em solid var(--main);
-    border-width: 0 0 1em 0;
     text-align: center;
-    margin: 0 0 1em 0;
     padding: 2em 1em;
 }
 header h1 {
@@ -65,13 +87,27 @@ header h1 {
 }
 
 /* Nav */
+nav a {
+    color: var(--white);
+    text-decoration: none;
+}
 nav li {
     display: inline;
     padding: 0.25em 1em;
 }
+nav {
+    border: 1em solid var(--main);
+    border-width: 0.2em 0 1em 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0 0 1em 0;
+}
 
 /* Main */
 section, article {
+    background: var(--white);
     border: 0.25em solid #000;
     box-shadow: 0 1em 1em #999;
+    margin: 1em 2em;
 }

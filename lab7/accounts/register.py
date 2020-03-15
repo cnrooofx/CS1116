@@ -43,8 +43,8 @@ if len(form_data) != 0:
                 connection.close()
                 password_email(name, email, password)
                 result = """
-                   <p>You have been successfully registered!</p>
-                   <p>Please check your email to get your password</p>"""
+                    <p>You have been successfully registered!</p>
+                    <p>Please check your email to get your password</p>"""
         except (db.Error, IOError):
             result = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
 
