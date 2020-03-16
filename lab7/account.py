@@ -11,13 +11,13 @@ print('Content-Type: text/html')
 print()
 
 result = """
-   <section>
-       <p>You are not logged in.</p>
-       <ul>
-           <li><a href="login.py">Login</a></li>
-           <li><a href="accounts/register.py">Register</a></li>
-       </ul>
-   </section>"""
+    <section>
+        <p>You are not logged in.</p>
+        <ul>
+            <li><a href="login.py">Login</a></li>
+            <li><a href="accounts/register.py">Register</a></li>
+        </ul>
+    </section>"""
 
 try:
     cookie = SimpleCookie()
@@ -29,14 +29,17 @@ try:
             session_store = DbfilenameShelf('sessions/sess_' + sid, writeback=False)
             if session_store.get('authenticated'):
                 result = """
+                <section>
+                    <h2>My Account</h2>
                     <p>
-                        Hey, %s. We hope you enjoy this photo!
+                        Hey, %s.
                     </p>
-                    <img src="photo1.jpg">
                     <ul>
-                        <li><a href="protected_page_A.py">Web Dev 2 - Members Only A</a></li>
+                        <li><a href="changepswd.py">Change password</a></li>
                         <li><a href="logout.py">Logout</a></li>
-                    </ul>""" % session_store.get('username')
+                        <li><a href="delete_account.py">Delete Account</a></li>
+                    </ul>
+                </section>""" % session_store.get('username')
             session_store.close()
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
@@ -48,11 +51,11 @@ print("""
             <meta charset="utf-8" />
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Game</title>
+            <title>Account Management</title>
         </head>
         <body>
             <header>
-                <h1>Game</h1>
+                <h1>Title</h1>
             </header>
             <nav>
                 <ul>
@@ -60,21 +63,17 @@ print("""
                         <a href="index.html">Home</a>
                     </li>
                     <li>
-                        <a href="">Game</a>
+                        <a href="game.py">Game</a>
                     </li>
                     <li>
                         <a href="leaderboard.py">Leaderboard</a>
                     </li>
                     <li>
-                        <a href="account.py">Account</a>
+                        <a href="">Account</a>
                     </li>
                 </ul>
             </nav>
             <main>
-                <h2>Subtitle</h2>
-                <p>
-                    Hello
-                </p>
                 %s
             </main>
         </body>

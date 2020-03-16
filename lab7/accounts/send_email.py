@@ -3,7 +3,7 @@ import smtplib
 import ssl
 
 
-def password_email(name, email, password):
+def password_email(username, email, password):
     context = ssl.create_default_context()
     sender_email = "conorfox.test@gmail.com"
     message = """Subject: Complete your registration
@@ -19,7 +19,7 @@ def password_email(name, email, password):
 
     Thanks,
         Conor
-    """ % (name, password)
+    """ % (username, password)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port=465, context=context) as server:
         server.login(sender_email, '+4xmsXrn;Jn2aCQk')

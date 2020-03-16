@@ -13,16 +13,14 @@ print('Content-Type: text/html')
 print()
 
 form_data = FieldStorage()
-name = ''
 username = ''
 email = ''
 result = ''
 
 if len(form_data) != 0:
-    name = escape(form_data.getfirst('name', '').strip())
     username = escape(form_data.getfirst('username', '').strip())
     email = escape(form_data.getfirst('email', '').strip())
-    if not name or not username or not email:
+    if not username or not email:
         result = '<p>Sorry! All fields are required.</p>'
     else:
         try:
@@ -36,12 +34,12 @@ if len(form_data) != 0:
             else:
                 password = generate_password()
                 sha256_password = sha256(password.encode()).hexdigest()
-                cursor.execute("""INSERT INTO users (username, name, email, password)
-                                  VALUES (%s, %s, %s, %s)""", (username, name, email, sha256_password))
+                cursor.execute("""INSERT INTO users (username, email, password)
+                                  VALUES (%s, %s, %s)""", (username, email, sha256_password))
                 connection.commit()
                 cursor.close()
                 connection.close()
-                password_email(name, email, password)
+                password_email(username, email, password)
                 result = """
                     <p>You have been successfully registered!</p>
                     <p>Please check your email to get your password</p>"""
@@ -53,20 +51,41 @@ print("""
     <html lang='en'>
         <head>
             <meta charset='utf-8' />
+            <link rel="stylesheet" href="../styles.css" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             <title>Web Dev 2</title>
         </head>
         <body>
-            <form action='register.py' method='post'>
-                <fieldset>
-                    <label for='name'>Name: </label>
-                    <input type='text' name='name' id='name' value='%s' required />
-                    <label for='username'>Username: </label>
-                    <input type='text' name='username' id='username' value='%s' required />
-                    <label for='email'>Email: </label>
-                    <input type='email' name='email' id='email' value='%s' required />
-                    <input type='submit' value='Register' />
-                </fieldset>
-            </form>
-            %s
+            <header>
+                <h1>Title</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="../index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="../game.py">Game</a>
+                    </li>
+                    <li>
+                        <a href="../leaderboard.py">Leaderboard</a>
+                    </li>
+                    <li>
+                        <a href="account.py">Account</a>
+                    </li>
+                </ul>
+            </nav>
+            <main>
+                <form action='register.py' method='post'>
+                    <fieldset>
+                        <label for='username'>Username: </label>
+                        <input type='text' name='username' id='username' value='%s' required />
+                        <label for='email'>Email: </label>
+                        <input type='email' name='email' id='email' value='%s' required />
+                        <input type='submit' value='Register' />
+                    </fieldset>
+                </form>
+                %s
+            </main>
         </body>
-    </html>""" % (name, username, email, result))
+    </html>""" % (username, email, result))

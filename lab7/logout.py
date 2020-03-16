@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 from os import environ
-from shelve import open
+from shelve import DbfilenameShelf
 from http.cookies import SimpleCookie
 from cgitb import enable
 enable()
@@ -17,7 +17,7 @@ try:
         cookie.load(http_cookie_header)
         if 'sid' in cookie:
             sid = cookie['sid'].value
-            session_store = open('sess_' + sid, writeback=True)
+            session_store = DbfilenameShelf('sessions/sess_' + sid, writeback=True)
             session_store['authenticated'] = False
             session_store.close()
             result = """
