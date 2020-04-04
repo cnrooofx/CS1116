@@ -3,6 +3,7 @@
 from os import environ
 from shelve import DbfilenameShelf
 from http.cookies import SimpleCookie
+import pymysql as db
 
 from cgitb import enable
 enable()
@@ -28,9 +29,10 @@ try:
             sid = cookie['sid'].value
             session_store = DbfilenameShelf('sessions/sess_' + sid, writeback=False)
             if session_store.get('authenticated'):
+                username = session_store.get('username')
                 result = """
                 <section>
-                    <h2>My Account</h2>
+                    <h2>Your Account</h2>
                     <p>
                         Hey, %s.
                     </p>
@@ -39,7 +41,24 @@ try:
                         <li><a href="logout.py">Logout</a></li>
                         <li><a href="delete_account.py">Delete Account</a></li>
                     </ul>
-                </section>""" % session_store.get('username')
+                </section>""" % username
+                connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
+                cursor = connection.cursor(db.cursors.DictCursor)
+                cursor.execute("""SELECT score, score_date
+                                  FROM leaderboard
+                                  WHERE username = %s
+                                  ORDER BY score_date DESC""", username)
+                result += '<section><h2>Your Scores</h2>'
+                if cursor.rowcount == 0:
+                    result += 'You don\'t have any scores. Get playing!'
+                else:
+                    result += '<table><tr><th>Candidate name</th><th>Total votes</th></tr>'
+                    for row in cursor.fetchall():
+                        result += '<tr><td>%s</td><td>%i</td></tr>' % (row['candidate_name'], row['total_votes'])
+                    result += '</table></section>'
+                result += '</section>'
+                cursor.close()
+                connection.close()
             session_store.close()
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
@@ -55,24 +74,24 @@ print("""
         </head>
         <body>
             <header>
-                <h1>Title</h1>
+                <h1>Game</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="game.py">Play</a>
+                        </li>
+                        <li>
+                            <a href="leaderboard.py">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="">Account</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="game.py">Game</a>
-                    </li>
-                    <li>
-                        <a href="leaderboard.py">Leaderboard</a>
-                    </li>
-                    <li>
-                        <a href="">Account</a>
-                    </li>
-                </ul>
-            </nav>
             <main>
                 %s
             </main>

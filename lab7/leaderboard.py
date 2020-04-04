@@ -11,12 +11,16 @@ result = ''
 try:
     connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
     cursor = connection.cursor(db.cursors.DictCursor)
-    cursor.execute("""SELECT candidate_name, total_votes
-                      FROM candidates
-                      ORDER BY total_votes DESC, candidate_name ASC""")
-    result = '<table><tr><th>Candidate name</th><th>Total votes</th></tr>'
+    cursor.execute("""SELECT *
+                      FROM leaderboard
+                      ORDER BY score DESC
+                      LIMIT 25""")
+    rank = 1
     for row in cursor.fetchall():
-        result += '<tr><td>%s</td><td>%i</td></tr>' % (row['candidate_name'], row['total_votes'])
+        score_date = row['score_date']
+        date = '%s/%s/%s' % (score_date.day, score_date.month, score_date.year)
+        result += '<tr><td>%i</td><td>%s</td><td>%i</td><td>%s</td></tr>' % (rank, row['username'], row['score'], date)
+        rank += 1
     result += '</table>'
     cursor.close()
     connection.close()
@@ -25,11 +29,54 @@ except db.Error:
 
 print("""
     <!DOCTYPE html>
-        <html lang="en">
-            <head>
-                <title>Leaderboard</title>
-            </head>
-            <body>
-                %s
-            </body>
-            </html>""" % (result))
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <link rel="stylesheet" href="styles.css" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            <title>Account Management</title>
+        </head>
+        <body>
+            <header>
+                <h1>Game</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="game.py">Play</a>
+                        </li>
+                        <li>
+                            <a href="">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="account.py">Account</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+            <main>
+                <section>
+                    <table>
+                        <caption>Leaderboard</caption>
+                        <tr>
+                            <th scope="col">
+                                Rank
+                            </th>
+                            <th scope="col">
+                                Username
+                            </th>
+                            <th scope="col">
+                                Score
+                            </th>
+                            <th scope="col">
+                                Date
+                            </th>
+                        </tr>
+                        %s
+                    </table>
+                </section>
+            </main>
+        </body>
+    </html>""" % (result))

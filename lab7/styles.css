@@ -66,24 +66,27 @@ html {
 }
 body {
     background: var(--grey);
+    display: grid;
     font-size: 18px;
+    /* min-height: 100vw; */
 }
-p, a, figure, figcaption, h2, h3, h4, h5, h6 {
+p, figure, figcaption, h2, h3, h4, h5, h6 {
     padding: 0.5em 0.25em;
 }
-header, nav, main, aside, footer {
-    /* background-color: var(--white); */
+header, nav, main, aside, footer, section, article {
     padding: 1em;
 }
 
 /* Header */
 header {
     background: var(--black);
+    border: 1em solid var(--main);
+    border-width: 0 0 0.5em 0;
     color: var(--white);
     text-align: center;
 }
 header h1 {
-    font-size: 6em;
+    font-size: 4em;
     font-weight: 900;
 }
 
@@ -91,7 +94,7 @@ header h1 {
 nav ul {
     align-items: stretch;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     list-style: none;
@@ -100,14 +103,14 @@ nav ul {
 }
 nav li {
     flex: 100%;
-    padding: 0.6em 0.5em;
+    padding: 0.6em 0;
 }
 nav a {
     border: 0.1em solid var(--main);
     border-radius: 0.5em;
     color: var(--white);
     margin: 0.6em 0.1em;
-    padding: 0.3em 4em;
+    padding: 0.3em 2em;
     text-decoration: none;
     transition: background-color 0.7s ease;
 }
@@ -117,13 +120,11 @@ nav a:hover, a[href=""] {
     color: var(--main);
 }
 nav {
-    background-color: var(--black);
-    border: 1em solid var(--main);
-    border-width: 0 0 0.5em 0;
+    /* background-color: var(--black); */
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    margin: 0 0 1em 0;
+    /* margin: 0 0 1em 0; */
 }
 
 /* Main */
@@ -132,5 +133,79 @@ section, article {
     border: 0.25em solid #000;
     box-shadow: 0 1em 1em #999;
     margin: 1em;
-    padding: 0.5em;
+}
+ul, ol {
+    padding: 0.2em 1.5em;
+}
+li {
+    padding: 0.25em;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    margin: 0.5em 0.15em 3em 0.15em;
+    width: 98%;
+}
+caption {
+    font-size: 1.25em;
+    margin: 1em;
+    text-decoration: underline;
+}
+th, td {
+    padding: 0.75em;
+}
+td {
+    border-bottom: 0.1em dotted #333;
+}
+th {
+    border-bottom: 0.3em double #333;
+}
+td ~ td, th ~ th {
+    border-left: 0.1em solid #333;
+}
+
+/* Media Queries */
+@media screen and (min-width: 60em) {
+    body {
+        display: grid;
+        grid-template-columns: 25% 75%;
+        grid-template-rows: auto;
+        grid-template-areas: "side main"
+                             "side bottom";
+        margin: 0 auto;
+    }
+    header {
+        border: 1em solid var(--main);
+        border-width: 0 0.5em 0 0;
+        grid-area: side;
+        min-height: 100vw;
+    }
+    header h1 {
+        padding: 0.5em 0;
+    }
+    main {
+        grid-area: main;
+    }
+    footer {
+        grid-area: bottom;
+    }
+}
+/* @media screen and (min-width: 90em) {
+    header h1 {
+        font-size: 5em;
+    }
+    nav a {
+        padding: 0.3em 4em;
+    }
+} */
+@media screen and (min-width: 100em) {
+    body {
+        max-width: 100em;
+        margin: 0 auto;
+        width: 85%;
+    }
+    header {
+        border-width: 0 0.5em;
+    }
 }
