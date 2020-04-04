@@ -47,15 +47,23 @@ try:
                 cursor.execute("""SELECT score, score_date
                                   FROM leaderboard
                                   WHERE username = %s
-                                  ORDER BY score_date DESC""", username)
+                                  ORDER BY score DESC
+                                  LIMIT 25""", username)
                 result += '<section><h2>Your Scores</h2>'
                 if cursor.rowcount == 0:
-                    result += 'You don\'t have any scores. Get playing!'
+                    result += '<p>You don\'t have any scores. Get playing!</p>'
                 else:
-                    result += '<table><tr><th>Candidate name</th><th>Total votes</th></tr>'
+                    result += """<table>
+                        <caption>Leaderboard</caption>
+                        <tr>
+                            <th scope="col">Score</th>
+                            <th scope="col">Date</th>
+                        </tr>"""
                     for row in cursor.fetchall():
-                        result += '<tr><td>%s</td><td>%i</td></tr>' % (row['candidate_name'], row['total_votes'])
-                    result += '</table></section>'
+                        score_date = row['score_date']
+                        date = '%s/%s/%s' % (score_date.day, score_date.month, score_date.year)
+                        result += '<tr><td>%i</td><td>%s</td></tr>' % (row['score'], date)
+                    result += '</table>'
                 result += '</section>'
                 cursor.close()
                 connection.close()
