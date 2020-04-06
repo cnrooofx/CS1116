@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 from cgi import FieldStorage, escape
+from os import environ
 from shelve import DbfilenameShelf
 from time import time
 from hashlib import sha256
@@ -14,13 +15,8 @@ from send_email import reset_email
 from cgitb import enable
 enable()
 
-print('Content-Type: text/html')
-print()
-
 form_data = FieldStorage()
 
-username = ''
-code = ''
 form = """<form action="forgot.py" method="post">
     <label for="username">Username: </label>
     <input type="text" name="username" id="username" value="" />
@@ -29,47 +25,66 @@ form = """<form action="forgot.py" method="post">
 result = ''
 
 if len(form_data) != 0:
-    code = escape(form_data.getfirst('code', '').strip())
-    if code and not username:
-        form = """<form action="forgot.py" method="post">
-            <label for="code">Code: </label>
-            <input type="number" name="code" id="code" min="0" max="99999" />
-            <imput type="submit" />
-        </form>"""
-        new_password = generate_password()
-        sha256_password = sha256(new_password.encode()).hexdigest()
-    else:
-        username = escape(form_data.getfirst('username', '').strip())
-        if not username:
-            result = '<p><strong>Error! Please enter a username.</strong></p>'
-        else:
-            try:
-                connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
-                cursor = connection.cursor(db.cursors.DictCursor)
-                cursor.execute("""SELECT email
-                                  FROM users
-                                  WHERE username = %s""", username)
-                if cursor.rowcount != 0:
-                    email = cursor.fetchone()['email']
-                    sid = sha256(repr(time()).encode()).hexdigest()
-                    code = ''
-                    for i in range(5):
-                        code += str(randint(0, 9))
-                    session_store = DbfilenameShelf('../sessions/reset_' + sid, writeback=True)
-                    session_store['username'] = username
-                    session_store['code'] = code
-                    session_store.close()
-                    reset_email(username, email, code)
-                form = """<form action="forgot.py" method="post">
-                    <label for="code">Code: </label>
-                    <input type="number" name="code" id="code" />
-                    <imput type="submit" />
-                </form>"""
-                result = '<p>Please check your email for the password reset code.</p>'
-                cursor.close()
-                connection.close()
-            except (db.Error, IOError):
-                result = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
+    try:
+        cookie = SimpleCookie()
+        http_cookie_header = environ.get('HTTP_COOKIE')
+        if http_cookie_header:
+            cookie.load(http_cookie_header)
+            if 'reset' in cookie:
+                sid = cookie['reset'].value
+                code = escape(form_data.getfirst('code', '').strip())
+                session_store = DbfilenameShelf('../sessions/reset_' + sid, writeback=False)
+                if session_store.get('code') == code:
+                    new_password = generate_password()
+                    sha256_password = sha256(new_password.encode()).hexdigest()
+                    result = str(sha256_password)
+                else:
+                    form = """<form action="forgot.py" method="post">
+                            <label for="code">Code: </label>
+                            <input type="number" name="code" id="code" min="0" max="99999" />
+                            <imput type="submit" />
+                        </form>
+                    <p><strong>Error! Incorrect code.</strong></p>"""
+        # if code and not username:
+        #
+        #     new_password = generate_password()
+        #     sha256_password = sha256(new_password.encode()).hexdigest()
+            else:
+                username = escape(form_data.getfirst('username', '').strip())
+                if not username:
+                    result = '<p><strong>Error! Please enter a username.</strong></p>'
+                else:
+                    connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
+                    cursor = connection.cursor(db.cursors.DictCursor)
+                    cursor.execute("""SELECT email
+                                      FROM users
+                                      WHERE username = %s""", username)
+                    if cursor.rowcount != 0:
+                        email = cursor.fetchone()['email']
+                        sid = sha256(repr(time()).encode()).hexdigest()
+                        code = ''
+                        for i in range(5):
+                            code += str(randint(0, 9))
+                        session_store = DbfilenameShelf('../sessions/reset_' + sid, writeback=True)
+                        session_store['username'] = username
+                        session_store['code'] = code
+                        cookie['reset'] = sid
+                        print(cookie)
+                        reset_email(username, email, code)
+                        session_store.close()
+                    form = """<form action="forgot.py" method="post">
+                        <label for="code">Code: </label>
+                        <input type="number" name="code" id="code" />
+                        <imput type="submit" />
+                    </form>"""
+                    result = '<p>Please check your email for the password reset code.</p>'
+                    cursor.close()
+                    connection.close()
+    except (db.Error, IOError):
+        result = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
+
+print('Content-Type: text/html')
+print()
 
 print("""
     <!DOCTYPE html>
