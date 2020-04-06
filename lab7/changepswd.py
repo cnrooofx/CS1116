@@ -44,13 +44,17 @@ try:
                 if len(form_data) != 0:
                     password1 = escape(form_data.getfirst('pass1', '').strip())
                     password2 = escape(form_data.getfirst('pass2', '').strip())
-                    if password1 == password2:
+                    if len(password1) < 8 or len(password2) < 8:
+                        result += """<p>
+                            <strong>Error! Password must be at least 8 characters long.</strong>
+                        </p>"""
+                    elif password1 == password2:
                         sha256_password = sha256(password1.encode()).hexdigest()
                         connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
                         cursor = connection.cursor(db.cursors.DictCursor)
                         cursor.execute("""UPDATE users
                                           SET password = %s
-                                          WHERE username = %s""", (username, sha256_password))
+                                          WHERE username = %s""", (sha256_password, username))
                         connection.commit()
                         cursor.close()
                         connection.close()
