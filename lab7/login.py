@@ -11,16 +11,33 @@ from cgitb import enable
 enable()
 
 form_data = FieldStorage()
-username = ''
-error = ''
-result = '<p><a href="accounts/forgot.py">Forgot password</a></p>'
+
+result = """<h2>Login</h2>
+<form action="login.py" method="post">
+    <label for="username">User name: </label>
+    <input type="text" name="username" id="username" value="" />
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password" />
+    <input type="submit" value="Login" />
+</form>
+<p><a href="accounts/forgot.py">Forgot password</a></p>"""
+message = ''
 
 if len(form_data) != 0:
     username = escape(form_data.getfirst('username', '').strip())
     password = escape(form_data.getfirst('password', '').strip())
     if not username or not password:
-        error = '<p>Error! Both username and password are required</p>'
+        message = '<p><strong>Error! Both username and password are required</strong></p>'
     else:
+        result = """<h2>Login</h2>
+        <form action="login.py" method="post">
+            <label for="username">User name: </label>
+            <input type="text" name="username" id="username" value="%s" />
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" />
+            <input type="submit" value="Login" />
+        </form>
+        <p><a href="accounts/forgot.py">Forgot password</a></p>""" % username
         sha256_password = sha256(password.encode()).hexdigest()
         try:
             connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
@@ -29,7 +46,7 @@ if len(form_data) != 0:
                               WHERE username = %s
                               AND password = %s""", (username, sha256_password))
             if cursor.rowcount == 0:
-                error = '<p>Error! Incorrect user name or password</p>'
+                message = '<p><strong>Error! Incorrect user name or password</strong></p>'
             else:
                 cookie = SimpleCookie()
                 sid = sha256(repr(time()).encode()).hexdigest()
@@ -39,20 +56,19 @@ if len(form_data) != 0:
                 session_store['username'] = username
                 session_store.close()
                 result = """
-                   <p>Succesfully logged in!</p>
-                   <section>
-                       <h3>Welcome back!</h3>
-                       <ul>
-                           <li><a href="protected_page_A.py">Web Dev 2 - Members Only A</a></li>
-                           <li><a href="protected_page_B.py">Web Dev 2 - Members Only B</a></li>
-                           <li><a href="logout.py">Logout</a></li>
-                       </ul>
-                   </section>"""
+                    <h3>Welcome back!</h3>
+                    <ul>
+                        <li><a href="game.py">Play Now</a></li>
+                        <li><a href="account.py">Your Scores</a></li>
+                        <li><a href="leaderboard.py">Leaderboard</a></li>
+                        <li><a href="account.py">Account Management</a></li>
+                        <li><a href="logout.py">Logout</a></li>
+                    </ul>"""
                 print(cookie)
             cursor.close()
             connection.close()
         except (db.Error, IOError):
-            error = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
+            message = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
 
 print('Content-Type: text/html')
 print()
@@ -68,34 +84,28 @@ print("""
         <body>
             <header>
                 <h1>Game</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="game.py">Game</a>
+                        </li>
+                        <li>
+                            <a href="leaderboard.py">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="account.py">Account</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="game.py">Game</a>
-                    </li>
-                    <li>
-                        <a href="leaderboard.py">Leaderboard</a>
-                    </li>
-                    <li>
-                        <a href="account.py">Account</a>
-                    </li>
-                </ul>
-            </nav>
             <main>
-                <h2>Login</h2>
-                <form action="login.py" method="post">
-                    <label for="username">User name: </label>
-                    <input type="text" name="username" id="username" value="%s" />
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password" />
-                    <input type="submit" value="Login" />
-                </form>
-                %s
-                %s
+                <section>
+                    %s
+                    %s
+                </section>
             </main>
         </body>
-    </html>""" % (username, error, result))
+    </html>""" % (result, message))

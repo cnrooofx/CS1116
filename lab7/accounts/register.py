@@ -28,21 +28,20 @@ if len(form_data) != 0:
             cursor = connection.cursor(db.cursors.DictCursor)
             cursor.execute("""SELECT * FROM users
                               WHERE username = %s""", (username))
-            if cursor.rowcount > 0:
-                result = """<p>Sorry! That username is already taken.</p>
-                            <p>Choose another username or <a href='login.py'>Click here</a> to sign in.</p>"""
-            else:
+            if cursor.rowcount == 0:
                 password = generate_password()
                 sha256_password = sha256(password.encode()).hexdigest()
                 cursor.execute("""INSERT INTO users (username, email, password)
                                   VALUES (%s, %s, %s)""", (username, email, sha256_password))
                 connection.commit()
-                cursor.close()
-                connection.close()
                 password_email(username, email, password)
-                result = """
-                    <p>You have been successfully registered!</p>
-                    <p>Please check your email to get your password</p>"""
+                result = """<p>You have been successfully registered! Please check your email to get your password</p>
+                    <p><a href="../login.py">Login Here</a></p>"""
+            else:
+                result = """<p>Sorry! That username is already taken.</p>
+                            <p>Choose another username or <a href='login.py'>Click here</a> to sign in.</p>"""
+            cursor.close()
+            connection.close()
         except (db.Error, IOError):
             result = '<p>Sorry! We are experiencing problems at the moment. Please try again later.</p>'
 
@@ -57,35 +56,36 @@ print("""
         </head>
         <body>
             <header>
-                <h1>Title</h1>
+                <h1>Game</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="../index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="../game.py">Game</a>
+                        </li>
+                        <li>
+                            <a href="../leaderboard.py">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="account.py">Account</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="../index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="../game.py">Game</a>
-                    </li>
-                    <li>
-                        <a href="../leaderboard.py">Leaderboard</a>
-                    </li>
-                    <li>
-                        <a href="account.py">Account</a>
-                    </li>
-                </ul>
-            </nav>
             <main>
-                <form action='register.py' method='post'>
-                    <fieldset>
+                <section>
+                    <h2>Register Account</h2>
+                    <form action='register.py' method='post'>
                         <label for='username'>Username: </label>
                         <input type='text' name='username' id='username' value='%s' required />
                         <label for='email'>Email: </label>
                         <input type='email' name='email' id='email' value='%s' required />
                         <input type='submit' value='Register' />
-                    </fieldset>
-                </form>
-                %s
+                    </form>
+                    %s
+                </section>
             </main>
         </body>
     </html>""" % (username, email, result))

@@ -13,7 +13,7 @@ print()
 
 result = """
     <section>
-        <p>You are not logged in.</p>
+        <p><strong>You are not logged in.</strong></p>
         <ul>
             <li><a href="login.py">Login</a></li>
             <li><a href="accounts/register.py">Register</a></li>
@@ -49,12 +49,13 @@ try:
                                   WHERE username = %s
                                   ORDER BY score DESC
                                   LIMIT 25""", username)
-                result += '<section><h2>Your Scores</h2>'
+                result += '<section>'
                 if cursor.rowcount == 0:
-                    result += '<p>You don\'t have any scores. Get playing!</p>'
+                    result += """<h2>Your Scores</h2>
+                            <p>You don\'t have any scores. Get playing!</p>"""
                 else:
                     result += """<table>
-                        <caption>Leaderboard</caption>
+                        <caption>Your Scores</caption>
                         <tr>
                             <th scope="col">Score</th>
                             <th scope="col">Date</th>
@@ -78,7 +79,7 @@ print("""
             <meta charset="utf-8" />
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Account Management</title>
+            <title>Account &vert; Game</title>
         </head>
         <body>
             <header>
