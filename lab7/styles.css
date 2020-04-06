@@ -70,11 +70,14 @@ body {
     font-size: 18px;
     /* min-height: 100vw; */
 }
-p, figure, figcaption, h2, h3, h4, h5, h6 {
+p, figure, figcaption, h2, h3, h4, h5, h6, caption, strong, input, form {
     padding: 0.5em 0.25em;
 }
 header, nav, main, aside, footer, section, article {
-    padding: 1em;
+    padding: 1em 0.5em;
+}
+a {
+    color: var(--main);
 }
 
 /* Header */
@@ -85,7 +88,7 @@ header {
     color: var(--white);
     text-align: center;
 }
-header h1 {
+h1 {
     font-size: 4em;
     font-weight: 900;
 }
@@ -99,6 +102,7 @@ nav ul {
     justify-content: space-between;
     list-style: none;
     margin: 0.1em 0;
+    padding: 0;
     text-align: center;
 }
 nav li {
@@ -124,7 +128,7 @@ nav {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    /* margin: 0 0 1em 0; */
+    margin: 0 auto;
 }
 
 /* Main */
@@ -140,17 +144,27 @@ ul, ol {
 li {
     padding: 0.25em;
 }
+input {
+    display: block;
+    margin: 0.5em 0.5em;
+}
+canvas {
+    background-color: var(--black);
+    border: 0.5em solid #000;
+    margin: 1em;
+}
 
 /* Table */
 table {
     border-collapse: collapse;
     margin: 0.5em 0.15em 3em 0.15em;
+    overflow-x: auto;
     width: 98%;
 }
 caption {
-    font-size: 1.25em;
-    margin: 1em;
-    text-decoration: underline;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
 }
 th, td {
     padding: 0.75em;
@@ -169,7 +183,7 @@ td ~ td, th ~ th {
 @media screen and (min-width: 60em) {
     body {
         display: grid;
-        grid-template-columns: 25% 75%;
+        grid-template-columns: 20% 80%;
         grid-template-rows: auto;
         grid-template-areas: "side main"
                              "side bottom";
@@ -179,10 +193,12 @@ td ~ td, th ~ th {
         border: 1em solid var(--main);
         border-width: 0 0.5em 0 0;
         grid-area: side;
-        min-height: 100vw;
+        min-height: 100vh;
     }
     header h1 {
-        padding: 0.5em 0;
+        margin: 0.5em auto;
+        text-orientation: sideways;
+        writing-mode: vertical-lr;
     }
     main {
         grid-area: main;
@@ -190,8 +206,11 @@ td ~ td, th ~ th {
     footer {
         grid-area: bottom;
     }
+    input {
+        display: inline;
+    }
 }
-/* @media screen and (min-width: 90em) {
+/* @media screen and (min-width: 75em) {
     header h1 {
         font-size: 5em;
     }
@@ -199,7 +218,7 @@ td ~ td, th ~ th {
         padding: 0.3em 4em;
     }
 } */
-@media screen and (min-width: 100em) {
+@media screen and (min-width: 150em) {
     body {
         max-width: 100em;
         margin: 0 auto;

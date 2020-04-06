@@ -14,7 +14,7 @@ try:
     cursor.execute("""SELECT *
                       FROM leaderboard
                       ORDER BY score DESC
-                      LIMIT 25""")
+                      LIMIT 50""")
     rank = 1
     for row in cursor.fetchall():
         score_date = row['score_date']
@@ -34,7 +34,7 @@ print("""
             <meta charset="utf-8" />
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Account Management</title>
+            <title>Leaderboard &vert; Game</title>
         </head>
         <body>
             <header>

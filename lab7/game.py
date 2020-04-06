@@ -10,9 +10,9 @@ enable()
 print('Content-Type: text/html')
 print()
 
-result = """
-   <section>
-       <p>You are not logged in.</p>
+result = """<section>
+       <strong>You are not logged in.</strong>
+       <p>Please log in or create an account to play.</p>
        <ul>
            <li><a href="login.py">Login</a></li>
            <li><a href="accounts/register.py">Register</a></li>
@@ -48,33 +48,29 @@ print("""
             <meta charset="utf-8" />
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Game</title>
+            <title>Play &vert; Game</title>
         </head>
         <body>
             <header>
                 <h1>Game</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="">Play</a>
+                        </li>
+                        <li>
+                            <a href="leaderboard.py">Leaderboard</a>
+                        </li>
+                        <li>
+                            <a href="account.py">Account</a>
+                        </li>
+                    </ul>
+                </nav>
             </header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="">Game</a>
-                    </li>
-                    <li>
-                        <a href="leaderboard.py">Leaderboard</a>
-                    </li>
-                    <li>
-                        <a href="account.py">Account</a>
-                    </li>
-                </ul>
-            </nav>
             <main>
-                <h2>Subtitle</h2>
-                <p>
-                    Hello
-                </p>
                 %s
             </main>
         </body>
