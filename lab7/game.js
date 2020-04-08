@@ -9,7 +9,10 @@ let move_up;
 let move_down;
 let move_left;
 let move_right;
-
+let big_grid;
+let big_size;
+let grid;
+let grid_size;
 
 document.addEventListener('DOMContentLoaded', init, false);
 
@@ -17,18 +20,20 @@ function init() {
     canvas = document.querySelector('canvas');
     context = canvas.getContext('2d');
     main = document.querySelector('main');
-    console.log(main);
-    console.log(main.clientHeight);
     width = Math.min(main.clientWidth, main.clientHeight);
     canvas.height = canvas.width = width;
+    big_size = 9;
+    grid_size = 27;
     size = width / grid_size;
-    newGrid();
+    newGrid(big_grid, big_size);
+    newGrid(grid, grid_size);
     move_up = false;
     move_down = false;
     move_left = false;
     move_right = false;
     interval_id = window.setInterval(draw, 100);
     window.addEventListener('keydown', activate, false);
+    window.addEventListener('keyup', deactivate, false);
 }
 
 function draw() {
@@ -57,38 +62,53 @@ function draw() {
     drawSnake();
 }
 
-function newGrid() {
-    grid = []
-    for (let i = 0; i < grid_size; i += 1) {
-        let new_line = [];
-        for (let i = 0; i < grid_size; i += 1) {
+function build() {
+    for (let i = 0; i < size_grid; i += 1) {
+        for (let i = 0; i < size_grid; i += 1) {
             new_line.push(0);
         }
-        grid.push(new_line);
+        name_grid.push(new_line);
     }
+}
+function newGrid(name_grid, size_grid) {
+    name_grid = []
+    for (let i = 0; i < size_grid; i += 1) {
+        let new_line = [];
+        for (let i = 0; i < size_grid; i += 1) {
+            new_line.push(0);
+        }
+        name_grid.push(new_line);
+    }
+}
+function stop() {
+    window.alert('Game Over :(');
+    clearInterval(interval_id);
+    window.removeEventListener('keydown', activate);
+    window.removeEventListener('keyup', deactivate);
+    init();
 }
 function activate(event) {
     let KeyCode = event.keyCode;
-    if (KeyCode === 37 && !move_right) {
+    if (KeyCode === 37) {
         move_left = true;
-        move_up = false;
-        move_down = false;
-        move_right = false;
-    } else if (KeyCode === 38 && !move_down) {
+    } else if (KeyCode === 38) {
         move_up = true;
-        move_down = false;
-        move_left = false;
-        move_right = false;
-    } else if (KeyCode === 39 && !move_left) {
+    } else if (KeyCode === 39) {
         move_right = true;
-        move_up = false;
-        move_down = false;
-        move_left = false;
-    } else if (KeyCode === 40 && !move_up) {
+    } else if (KeyCode === 40) {
         move_down = true;
-        move_up = false;
+    }
+}
+function deactivate(event) {
+    let KeyCode = event.keyCode;
+    if (KeyCode === 37) {
         move_left = false;
+    } else if (KeyCode === 38) {
+        move_up = false;
+    } else if (KeyCode === 39) {
         move_right = false;
+    } else if (KeyCode === 40) {
+        move_down = false;
     }
 }
 function getRandomNumber(min, max) {
