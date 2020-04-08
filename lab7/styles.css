@@ -195,9 +195,9 @@ td ~ td, th ~ th {
     }
     header {
         border: 1em solid var(--main);
-        border-width: 0 0.5em 0 0;
+        border-width: 0 0.5em 0.5em 0;
         grid-area: side;
-        min-height: 100vh;
+        min-height: 90vh;
     }
     header h1 {
         margin: 0.5em auto;
@@ -221,6 +221,6 @@ td ~ td, th ~ th {
         width: 85%;
     }
     header {
-        border-width: 0 0.5em;
+        border-width: 0 0.5em 0.5em 0.5em;
     }
 }
