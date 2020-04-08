@@ -26,7 +26,8 @@ if len(form_data) != 0:
         try:
             connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')
             cursor = connection.cursor(db.cursors.DictCursor)
-            cursor.execute("""SELECT * FROM users
+            cursor.execute("""SELECT *
+                              FROM users
                               WHERE username = %s""", (username))
             if cursor.rowcount == 0:
                 password = generate_password()
@@ -39,7 +40,7 @@ if len(form_data) != 0:
                     <p><a href="../login.py">Login Here</a></p>"""
             else:
                 result = """<p>Sorry! That username is already taken.</p>
-                            <p>Choose another username or <a href='login.py'>Click here</a> to sign in.</p>"""
+                            <p>Choose another username or <a href='../login.py'>Click here</a> to sign in.</p>"""
             cursor.close()
             connection.close()
         except (db.Error, IOError):
@@ -69,7 +70,7 @@ print("""
                             <a href="../leaderboard.py">Leaderboard</a>
                         </li>
                         <li>
-                            <a href="account.py">Account</a>
+                            <a href="../account.py">Account</a>
                         </li>
                     </ul>
                 </nav>
@@ -77,11 +78,12 @@ print("""
             <main>
                 <section>
                     <h2>Register Account</h2>
+                    <p>Your temporary password will be sent to your email address</p>
                     <form action='register.py' method='post'>
                         <label for='username'>Username: </label>
-                        <input type='text' name='username' id='username' value='%s' required />
+                        <input type='text' name='username' id='username' value='%s' placeholder="Enter username" required />
                         <label for='email'>Email: </label>
-                        <input type='email' name='email' id='email' value='%s' required />
+                        <input type='email' name='email' id='email' value='%s' placeholder="Enter email" required />
                         <input type='submit' value='Register' />
                     </form>
                     %s

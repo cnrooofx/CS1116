@@ -15,9 +15,9 @@ form_data = FieldStorage()
 result = """<h2>Login</h2>
 <form action="login.py" method="post">
     <label for="username">User name: </label>
-    <input type="text" name="username" id="username" value="" />
+    <input type="text" name="username" id="username" placeholder="Enter username" value="" />
     <label for="password">Password: </label>
-    <input type="password" name="password" id="password" />
+    <input type="password" name="password" placeholder="Enter password" id="password" />
     <input type="submit" value="Login" />
 </form>
 <p><a href="accounts/forgot.py">Forgot password</a></p>"""
@@ -32,9 +32,9 @@ if len(form_data) != 0:
         result = """<h2>Login</h2>
         <form action="login.py" method="post">
             <label for="username">User name: </label>
-            <input type="text" name="username" id="username" value="%s" />
+            <input type="text" name="username" id="username" placeholder="Enter username" value="%s" />
             <label for="password">Password: </label>
-            <input type="password" name="password" id="password" />
+            <input type="password" name="password" id="password" placeholder="Enter password" />
             <input type="submit" value="Login" />
         </form>
         <p><a href="accounts/forgot.py">Forgot password</a></p>""" % username
@@ -56,14 +56,12 @@ if len(form_data) != 0:
                 session_store['username'] = username
                 session_store.close()
                 result = """
-                    <h3>Welcome back!</h3>
+                    <h3>Welcome back %s!</h3>
                     <ul>
                         <li><a href="game.py">Play Now</a></li>
-                        <li><a href="account.py">Your Scores</a></li>
-                        <li><a href="leaderboard.py">Leaderboard</a></li>
-                        <li><a href="account.py">Account Management</a></li>
+                        <li><a href="account.py">Your Scores &amp; Account Management</a></li>
                         <li><a href="logout.py">Logout</a></li>
-                    </ul>"""
+                    </ul>""" % username
                 print(cookie)
             cursor.close()
             connection.close()

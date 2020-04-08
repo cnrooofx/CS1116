@@ -38,12 +38,12 @@ try:
                     Hey, %s. Sorry to see you go.
                 </p>
                 <p>
-                    <strong>(Warning! This action is permenant)</strong>
+                    <strong>Warning! This action is permenant.</strong> All of your scores will be lost.
                 </p>
                 <form action="delete_account.py" method="post">
                     <label for="pass1">Enter password: </label>
                     <input type="password" name="pass1" id="pass1" placeholder="Enter password" required />
-                    <label for="pass2">Confirm password: </label>
+                    <label for="pass2">Reenter password: </label>
                     <input type="password" name="pass2" id="pass2" placeholder="Reenter password" required />
                     <label for="confirm">Confirm Deletion: </label>
                     <input type="checkbox" name="confirm" id="confirm" value="yes" />
@@ -68,6 +68,10 @@ try:
                                                   FROM users
                                                   WHERE username = %s
                                                   AND password = %s""", (username, sha256_password))
+                                connection.commit()
+                                cursor.execute("""DELETE
+                                                  FROM leaderboard
+                                                  WHERE username = %s""", username)
                                 connection.commit()
                                 session_store['authenticated'] = False
                                 form = ''

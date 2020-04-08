@@ -37,8 +37,8 @@ try:
                         Hey, %s.
                     </p>
                     <ul>
-                        <li><a href="changepswd.py">Change password</a></li>
                         <li><a href="logout.py">Logout</a></li>
+                        <li><a href="changepswd.py">Change password</a></li>
                         <li><a href="delete_account.py">Delete Account</a></li>
                     </ul>
                 </section>""" % username
