@@ -70,7 +70,7 @@ body {
     font-size: 18px;
     /* min-height: 100vw; */
 }
-p, figure, figcaption, h2, h3, h4, h5, h6, caption, strong, input, form {
+p, figure, figcaption, h2, h3, h4, h5, h6, caption, strong, input, form, label {
     padding: 0.5em 0.25em;
 }
 header, nav, main, aside, footer, section, article {
@@ -149,7 +149,7 @@ canvas {
     border: 0.5em solid #000;
     margin: 1em;
 }
-input, label {
+input, input + label {
     display: block;
     margin: 0.5em;
     width: 95%;
