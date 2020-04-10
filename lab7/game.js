@@ -206,11 +206,10 @@ function move(character) {
         let nextx = character.x
         let nexty = character.y-1
         let next = grid[nexty][nextx];
-        if (next !== 1) {
-            if (check_around(next, nextx, nexty)) {
-                grid[character.y][character.x] = 0;
-                character.y -= 1;
-            }
+        if (next !== 1 && next !== 6 && next !== 9) {
+            check_around(next, nextx, nexty)
+            grid[character.y][character.x] = 0;
+            character.y -= 1;
         } else if (character !== player) {
             character.move_up = false;
             character.move_down = true;
@@ -219,11 +218,10 @@ function move(character) {
         let nextx = character.x;
         let nexty = character.y+1;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
-            if (check_around(next, nextx, nexty)) {
-                grid[character.y][character.x] = 0;
-                character.y += 1;
-            }
+        if (next !== 1 && next !== 6 && next !== 9) {
+            check_around(next, nextx, nexty)
+            grid[character.y][character.x] = 0;
+            character.y += 1;
         } else if (character !== player) {
             character.move_down = false;
             character.move_up = true;
@@ -232,11 +230,10 @@ function move(character) {
         let nextx = character.x-1;
         let nexty = character.y;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
-            if (check_around(next, nextx, nexty)) {
-                grid[character.y][character.x] = 0;
-                character.x -= 1;
-            }
+        if (next !== 1 && next !== 6 && next !== 9) {
+            check_around(next, nextx, nexty)
+            grid[character.y][character.x] = 0;
+            character.x -= 1;
         } else if (character !== player) {
             character.move_left = false;
             character.move_right = true;
@@ -245,11 +242,10 @@ function move(character) {
         let nextx = character.x+1;
         let nexty = character.y;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
-            if (check_around(next, nextx, nexty)) {
-                grid[character.y][character.x] = 0;
-                character.x += 1;
-            }
+        if (next !== 1 && next !== 6 && next !== 9) {
+            check_around(next, nextx, nexty)
+            grid[character.y][character.x] = 0;
+            character.x += 1;
         } else if (character !== player) {
             character.move_right = false;
             character.move_left = true;
@@ -275,14 +271,8 @@ function check_around(next_pos, next_x, next_y) {
             window.alert('You WIN!!!')
             stop();
         } else {
-            player.move_down = false;
-            player.move_up = false;
-            player.move_left = false;
-            player.move_right = false;
-            player.gold_key = false;
-            player.silver_key = false;
             change_level(level);
-            return false
+            draw()
         }
     } else if (next_pos === 2) {
         // key 1
@@ -296,7 +286,6 @@ function check_around(next_pos, next_x, next_y) {
         // coin
         update_score(5);
     }
-    return true
 }
 function damage(character) {
     for (let y = player.y-1; y < player.y+2; y += 1) {
@@ -396,7 +385,8 @@ function change_level(num) {
     player.y = 13;
     player.health = 100;
     player.sprite = 0;
-    player.key = false;
+    player.silver_key = false;
+    player.gold_key = false;
     player.move_up = false;
     player.move_down = false;
     player.move_left = false;

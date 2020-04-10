@@ -127,7 +127,7 @@ function move(character) {
         let nextx = character.x
         let nexty = character.y-1
         let next = grid[nexty][nextx];
-        if (next !== 1) {
+        if (next !== 1 && next !== 6 && next !== 9) {
             check_around(next, nextx, nexty);
             grid[character.y][character.x] = 0;
             character.y -= 1;
@@ -139,7 +139,7 @@ function move(character) {
         let nextx = character.x;
         let nexty = character.y+1;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
+        if (next !== 1 && next !== 6 && next !== 9) {
             check_around(next, nextx, nexty);
             grid[character.y][character.x] = 0;
             character.y += 1;
@@ -151,7 +151,7 @@ function move(character) {
         let nextx = character.x-1;
         let nexty = character.y;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
+        if (next !== 1 && next !== 6 && next !== 9) {
             check_around(next, nextx, nexty);
             grid[character.y][character.x] = 0;
             character.x -= 1;
@@ -163,7 +163,7 @@ function move(character) {
         let nextx = character.x+1;
         let nexty = character.y;
         let next = grid[nexty][nextx];
-        if (next !== 1) {
+        if (next !== 1 && next !== 6 && next !== 9) {
             check_around(next, nextx, nexty);
             grid[character.y][character.x] = 0;
             character.x += 1;
@@ -239,7 +239,8 @@ function change_level() {
     player.y = 13;
     player.health = 100;
     player.sprite = 0;
-    player.key = false;
+    player.silver_key = false;
+    player.gold_key = false;
     player.move_up = false;
     player.move_down = false;
     player.move_left = false;
