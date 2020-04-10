@@ -10,14 +10,26 @@ enable()
 print('Content-Type: text/html')
 print()
 
+script = ''
 result = """<section>
        <strong>You are not logged in.</strong>
        <p>Please log in or create an account to play.</p>
-       <ul>
-           <li><a href="login.py">Login</a></li>
-           <li><a href="accounts/register.py">Register</a></li>
-       </ul>
+       <p>
+           <a href="login.py">Login</a> &vert; <a href="accounts/register.py">Register</a>
+       </p>
+   </section>
+   <section>
+        <p>
+            You can play the first level without an account as a guest.
+        </p>
+        <p>
+            Your scores will not get added to the leaderboard.
+        </p>
+        <p>
+            <a href="guest.html">Play as a Guest!</a>
+        </p>
    </section>"""
+footer = ''
 
 try:
     cookie = SimpleCookie()
@@ -28,15 +40,18 @@ try:
             sid = cookie['sid'].value
             session_store = DbfilenameShelf('sessions/sess_' + sid, writeback=False)
             if session_store.get('authenticated'):
-                result = """
+                script = '<script src="game.js" type="module"></script>'
+                result = """<canvas width="750" height="750"></canvas>
+                    <p>Level: <span id="level">1</span></p>
+                    <label for="health">Health:</label>
+                    <progress value="0" max="100" id="health"></progress>
                     <p>
-                        Hey, %s. We hope you enjoy this photo!
+                        Score: <span id="score">0</span> &vert; <span id="username">%s</span>
                     </p>
-                    <img src="photo1.jpg">
-                    <ul>
-                        <li><a href="protected_page_A.py">Web Dev 2 - Members Only A</a></li>
-                        <li><a href="logout.py">Logout</a></li>
-                    </ul>""" % session_store.get('username')
+
+                    <audio loop>
+                        <source src="media/back1.mp3" type="audio/mpeg">
+                    </audio>""" % session_store.get('username')
             session_store.close()
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
@@ -49,6 +64,7 @@ print("""
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             <title>Play &vert; Game</title>
+            %s
         </head>
         <body>
             <header>
@@ -73,5 +89,6 @@ print("""
             <main>
                 %s
             </main>
+            %s
         </body>
-    </html>""" % (result))
+    </html>""" % (script, result, footer))

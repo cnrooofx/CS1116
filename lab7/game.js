@@ -8,6 +8,7 @@ let interval_id;
 let score_box;
 let level_box;
 let health_bar;
+let username;
 let score;
 let level;
 let grid;
@@ -28,6 +29,7 @@ let player = {
 }
 
 let sprites;
+let audio;
 
 let levels = [[[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
@@ -121,8 +123,10 @@ function init() {
     level_box = document.getElementById('level');
     score_box = document.getElementById('score');
     health_bar = document.getElementById('health');
+    username = document.getElementById('username').innerHTML;
+    audio = document.querySelector('audio');
     main = document.querySelector('main');
-    width = 0.9 * Math.min(main.clientWidth, main.clientHeight);
+    width = 0.75 * Math.min(window.innerWidth, window.innerHeight);
     canvas.height = canvas.width = width;
     grid = [];
     sprites = new Image();
@@ -203,9 +207,10 @@ function move(character) {
         let nexty = character.y-1
         let next = grid[nexty][nextx];
         if (next !== 1) {
-            check_around(next, nextx, nexty);
-            grid[character.y][character.x] = 0;
-            character.y -= 1;
+            if (check_around(next, nextx, nexty)) {
+                grid[character.y][character.x] = 0;
+                character.y -= 1;
+            }
         } else if (character !== player) {
             character.move_up = false;
             character.move_down = true;
@@ -215,9 +220,10 @@ function move(character) {
         let nexty = character.y+1;
         let next = grid[nexty][nextx];
         if (next !== 1) {
-            check_around(next, nextx, nexty);
-            grid[character.y][character.x] = 0;
-            character.y += 1;
+            if (check_around(next, nextx, nexty)) {
+                grid[character.y][character.x] = 0;
+                character.y += 1;
+            }
         } else if (character !== player) {
             character.move_down = false;
             character.move_up = true;
@@ -227,9 +233,10 @@ function move(character) {
         let nexty = character.y;
         let next = grid[nexty][nextx];
         if (next !== 1) {
-            check_around(next, nextx, nexty);
-            grid[character.y][character.x] = 0;
-            character.x -= 1;
+            if (check_around(next, nextx, nexty)) {
+                grid[character.y][character.x] = 0;
+                character.x -= 1;
+            }
         } else if (character !== player) {
             character.move_left = false;
             character.move_right = true;
@@ -239,9 +246,10 @@ function move(character) {
         let nexty = character.y;
         let next = grid[nexty][nextx];
         if (next !== 1) {
-            check_around(next, nextx, nexty);
-            grid[character.y][character.x] = 0;
-            character.x += 1;
+            if (check_around(next, nextx, nexty)) {
+                grid[character.y][character.x] = 0;
+                character.x += 1;
+            }
         } else if (character !== player) {
             character.move_right = false;
             character.move_left = true;
@@ -267,7 +275,14 @@ function check_around(next_pos, next_x, next_y) {
             window.alert('You WIN!!!')
             stop();
         } else {
+            player.move_down = false;
+            player.move_up = false;
+            player.move_left = false;
+            player.move_right = false;
+            player.gold_key = false;
+            player.silver_key = false;
             change_level(level);
+            return false
         }
     } else if (next_pos === 2) {
         // key 1
@@ -281,6 +296,7 @@ function check_around(next_pos, next_x, next_y) {
         // coin
         update_score(5);
     }
+    return true
 }
 function damage(character) {
     for (let y = player.y-1; y < player.y+2; y += 1) {
@@ -298,13 +314,36 @@ function damage(character) {
             }
         }
     }
-    console.log(player.health)
 }
 function change_level(num) {
     level_box.innerHTML = level;
+    grid = null;
     grid = maps(num);
     if (num === 1) {
+        if (monsters.length !== 0) {
+            let monster = monsters[0]
+            monster.x = 2;
+            monster.y = 2;
+            monster.damage = 10;
+            monster.move_up = false;
+            monster.move_down = true;
+            monster.move_left = false;
+            monster.move_right = false;
+        } else {
+            let monster = {
+                x : 3,
+                y : 2,
+                damage : 5,
+                move_up : false,
+                move_down :  true,
+                move_left : false,
+                move_right : false,
+            }
+            monsters.push(monster)
+        }
+    } else if (num === 2) {
         // level 1
+        // music('media/back1.mp3');
         if (monsters.length !== 0) {
             let i = 2
             for (let monster of monsters) {
@@ -375,6 +414,9 @@ function stop() {
     window.removeEventListener('keyup', deactivate);
 }
 function activate(event) {
+    if (!player.move_left && !player.move_up && !player.move_right && !player.move_down) {
+        audio.play();
+    }
     let KeyCode = event.keyCode;
     if (KeyCode === 37) {
         player.move_left = true;
@@ -405,6 +447,34 @@ function getRandomNumber(min, max) {
 }
 function maps(num) {
     if (num === 1) {
+        return [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 3, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+          [1, 1, 0, 0, 0, 6, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 9, 0, 10, 1],
+          [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 8, 0, 0, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 0, 8, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0, 8, 0, 1, 0, 8, 0, 1, 1],
+          [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 8, 0, 0, 1, 1, 1],
+          [1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+    } else if (num === 2) {
         return [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
           [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
           [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 6, 0, 8, 0, 1],

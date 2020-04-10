@@ -68,7 +68,6 @@ body {
     background: var(--grey);
     display: grid;
     font-size: 18px;
-    /* min-height: 100vw; */
 }
 p, figure, figcaption, h2, h3, h4, h5, h6, caption, strong, input, form, label {
     padding: 0.5em 0.25em;
@@ -149,7 +148,7 @@ canvas {
     border: 0.5em solid #000;
     margin: 1em;
 }
-input, input + label {
+input {
     display: block;
     margin: 0.5em;
     width: 95%;
@@ -197,7 +196,7 @@ td ~ td, th ~ th {
         border: 1em solid var(--main);
         border-width: 0 0.5em 0.5em 0;
         grid-area: side;
-        min-height: 90vh;
+        /* min-height: 90vh; */
     }
     header h1 {
         margin: 0.5em auto;
@@ -206,6 +205,9 @@ td ~ td, th ~ th {
     }
     main {
         grid-area: main;
+    }
+    canvas {
+        float: left;
     }
     footer {
         grid-area: bottom;
