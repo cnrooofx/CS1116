@@ -64,7 +64,7 @@ print("""
                             <a href="../index.html">Home</a>
                         </li>
                         <li>
-                            <a href="../game.py">Game</a>
+                            <a href="../game.py">Play</a>
                         </li>
                         <li>
                             <a href="../leaderboard.py">Leaderboard</a>

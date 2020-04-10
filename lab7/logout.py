@@ -20,17 +20,10 @@ try:
             session_store = DbfilenameShelf('sessions/sess_' + sid, writeback=True)
             session_store['authenticated'] = False
             session_store.close()
-            result = """<section>
-                    <p>You are now logged out.</p>
-                    <ul>
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a href="login.py">Login again</a>
-                        </li>
-                    </ul>
-                </section>"""
+            result = """<p>You are now logged out.</p>
+                    <p>
+                        <a href="login.py">Login again</a>
+                    </p>"""
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
 
@@ -52,7 +45,7 @@ print("""
                             <a href="index.html">Home</a>
                         </li>
                         <li>
-                            <a href="game.py">Game</a>
+                            <a href="game.py">Play</a>
                         </li>
                         <li>
                             <a href="leaderboard.py">Leaderboard</a>
@@ -64,6 +57,8 @@ print("""
                 </nav>
             </header>
             <main>
-                %s
+                <section>
+                    %s
+                </section>
             </main>
     </html>""" % (result))

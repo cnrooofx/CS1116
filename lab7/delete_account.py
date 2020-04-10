@@ -16,10 +16,9 @@ print()
 result = """
    <section>
        <p>You are not logged in.</p>
-       <ul>
-           <li><a href="login.py">Login</a></li>
-           <li><a href="accounts/register.py">Register</a></li>
-       </ul>
+       <p>
+           <a href="login.py">Login</a> &vert; <a href="accounts/register.py">Register</a>
+       </p>
    </section>"""
 
 try:
@@ -109,7 +108,7 @@ print("""
                             <a href="index.html">Home</a>
                         </li>
                         <li>
-                            <a href="game.py">Game</a>
+                            <a href="game.py">Play</a>
                         </li>
                         <li>
                             <a href="leaderboard.py">Leaderboard</a>

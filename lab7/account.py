@@ -14,10 +14,9 @@ print()
 result = """
     <section>
         <p><strong>You are not logged in.</strong></p>
-        <ul>
-            <li><a href="login.py">Login</a></li>
-            <li><a href="accounts/register.py">Register</a></li>
-        </ul>
+        <p>
+            <a href="login.py">Login</a> &vert; <a href="accounts/register.py">Register</a>
+        </p>
     </section>"""
 
 try:
