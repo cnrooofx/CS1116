@@ -262,11 +262,12 @@ function check_around(next_pos, next_x, next_y) {
     } else if (next_pos === 10) {
         // scroll
         update_score(100);
-        if (level < 3) {
-            level += 1;
-            change_level(level);
+        level += 1;
+        if (level === 4) {
+            window.alert('You WIN!!!')
+            stop();
         } else {
-
+            change_level(level);
         }
     } else if (next_pos === 2) {
         // key 1
@@ -287,8 +288,9 @@ function damage(character) {
             if (grid[y][x] === 4) {
                 if (player.health-character.damage < 0) {
                     health_bar.value = 0;
-                    window.alert('GAME OVER\nScore: ' + score)
-                    stop()
+                    window.alert('GAME OVER\nScore: ' + score);
+                    stop();
+                    init();
                 } else {
                     player.health -= character.damage;
                     health_bar.value = player.health;
@@ -371,7 +373,6 @@ function stop() {
     clearInterval(interval_id);
     window.removeEventListener('keydown', activate);
     window.removeEventListener('keyup', deactivate);
-    init();
 }
 function activate(event) {
     let KeyCode = event.keyCode;
