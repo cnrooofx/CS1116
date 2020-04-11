@@ -14,6 +14,7 @@ let level;
 let grid;
 let grid_size = 27;
 let monsters = [];
+let request;
 
 let player = {
     x : 13,
@@ -58,8 +59,10 @@ function draw() {
     build();
     move(player);
     for (let cur_monster of monsters) {
-        move(cur_monster);
-        damage(cur_monster);
+        if (cur_monster.move_up || cur_monster.move_down || cur_monster.move_left || cur_monster.move_right) {
+            move(cur_monster);
+            damage(cur_monster);
+        }
     }
 }
 function build() {
@@ -174,6 +177,7 @@ function check_around(next_pos) {
         stop()
         update_score(player.health);
         if (level === 3) {
+            send_score();
             window.alert('You WIN!!!')
         } else {
             level += 1;
@@ -199,6 +203,7 @@ function damage(character) {
             if (grid[y][x] === 4) {
                 if (player.health-character.damage < 0) {
                     health_bar.value = 0;
+                    send_score();
                     window.alert('GAME OVER\nScore: ' + score);
                     stop();
                     init();
@@ -353,6 +358,25 @@ function deactivate(event) {
         player.move_right = false;
     } else if (KeyCode === 40) {
         player.move_down = false;
+    }
+}
+function send_score() {
+    let url = 'store_score.py?score=' + score + '&user=' + username;
+    request = new XMLHttpRequest();
+    request.addEventListener('readystatechange', handle_response, false);
+    request.open('GET', url, true);
+    request.send(null);
+}
+function handle_response() {
+    // Check that the response has fully arrived
+    if (request.readyState === 4) {
+        // Check the request was successful
+        if (request.status === 200) {
+            console.log(request.responseText.trim())
+            if (request.responseText.trim() !== 'success') {
+                console.log('error with storing score')
+            }
+        }
     }
 }
 function getRandomNumber(min, max) {
