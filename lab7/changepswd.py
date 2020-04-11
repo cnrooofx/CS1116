@@ -96,7 +96,7 @@ print("""
         </head>
         <body>
             <header>
-                <h1>Game</h1>
+                <h1>a-MAZE-ing</h1>
                 <nav>
                     <ul>
                         <li>

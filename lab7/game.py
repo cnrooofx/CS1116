@@ -63,12 +63,12 @@ print("""
             <meta charset="utf-8" />
             <link rel="stylesheet" href="styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Play &vert; Game</title>
+            <title>Play</title>
             %s
         </head>
         <body>
             <header>
-                <h1>Game</h1>
+                <h1>a-MAZE-ing</h1>
                 <nav>
                     <ul>
                         <li>

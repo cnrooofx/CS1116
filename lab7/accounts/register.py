@@ -53,11 +53,11 @@ print("""
             <meta charset='utf-8' />
             <link rel="stylesheet" href="../styles.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Web Dev 2</title>
+            <title>Register</title>
         </head>
         <body>
             <header>
-                <h1>Game</h1>
+                <h1>a-MAZE-ing</h1>
                 <nav>
                     <ul>
                         <li>
