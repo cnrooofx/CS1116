@@ -52,6 +52,11 @@ try:
                     <audio loop>
                         <source src="media/back1.mp3" type="audio/mpeg">
                     </audio>""" % session_store.get('username')
+                footer = """<footer>
+                    <small>
+                        Sprites from OpenGameArt.org courtesy of <a href="https://www.patreon.com/elthen">Elthen</a> &vert; Royalty Free Music by <a href="https://patrickdearteaga.com/royalty-free-music/">Patrick de Artega</a>
+                    </small>
+                </footer>"""
             session_store.close()
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
