@@ -13,6 +13,7 @@ print()
 
 result = """
     <section>
+        <h2>Your Account</h2>
         <p><strong>You are not logged in.</strong></p>
         <p>
             <a href="login.py">Login</a> &vert; <a href="accounts/register.py">Register</a>

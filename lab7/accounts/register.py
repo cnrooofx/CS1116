@@ -22,6 +22,8 @@ if len(form_data) != 0:
     email = escape(form_data.getfirst('email', '').strip())
     if not username or not email:
         result = '<p>Sorry! All fields are required.</p>'
+    elif len(username) > 10:
+        result = '<p>Sorry! Username must be less than 10 characters.</p>'
     else:
         try:
             connection = db.connect('localhost', 'cf26', 'pecah', 'cs6503_cs1106_cf26')

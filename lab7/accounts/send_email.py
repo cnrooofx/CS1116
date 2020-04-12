@@ -44,13 +44,10 @@ def password_email(username, email, password):
         </body>
     </html>
     """ % (username, password)
-
     plain_part = MIMEText(plain_text, "plain")
     html_part = MIMEText(html, "html")
-
     message.attach(plain_part)
     message.attach(html_part)
-
     with smtplib.SMTP_SSL("smtp.gmail.com", port=465, context=context) as server:
         server.login(sender_email, '+4xmsXrn;Jn2aCQk')
         server.sendmail(sender_email, email, message.as_string())
@@ -92,13 +89,10 @@ def reset_email(username, email, code):
         </body>
     </html>
     """ % (username, code)
-
     plain_part = MIMEText(plain_text, "plain")
     html_part = MIMEText(html, "html")
-
     message.attach(plain_part)
     message.attach(html_part)
-
     with smtplib.SMTP_SSL("smtp.gmail.com", port=465, context=context) as server:
         server.login(sender_email, '+4xmsXrn;Jn2aCQk')
         server.sendmail(sender_email, email, message.as_string())

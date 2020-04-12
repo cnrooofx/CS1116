@@ -56,7 +56,7 @@ if len(form_data) != 0:
                 session_store['username'] = username
                 session_store.close()
                 result = """
-                    <h3>Welcome back %s!</h3>
+                    <h2>Welcome back %s!</h2>
                     <ul>
                         <li><a href="game.py">Play Now</a></li>
                         <li><a href="account.py">Your Scores &amp; Account Management</a></li>
@@ -88,7 +88,7 @@ print("""
                             <a href="index.html">Home</a>
                         </li>
                         <li>
-                            <a href="game.py">Game</a>
+                            <a href="game.py">Play</a>
                         </li>
                         <li>
                             <a href="leaderboard.py">Leaderboard</a>
