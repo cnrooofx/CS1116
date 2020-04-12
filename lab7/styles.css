@@ -76,7 +76,7 @@ header, nav, main, aside, footer, section, article {
     padding: 1em 0.5em;
 }
 a {
-    color: var(--main);
+    color: #4D4575;
 }
 
 /* Header */
@@ -120,7 +120,7 @@ nav a {
 nav a:hover, a[href=""] {
     background-color: var(--white);
     border: 0.1em solid var(--black);
-    color: var(--main);
+    color: var(--black);
 }
 nav {
     /* background-color: var(--black); */
