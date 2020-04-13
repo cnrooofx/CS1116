@@ -48,7 +48,12 @@ try:
                     <p>
                         Score: <span id="score">0</span> &vert; <span id="username">%s</span>
                     </p>
-
+                    <figure>
+                        <figcaption>
+                            Use the arrow keys to move around.
+                        </figcaption>
+                        <img src="media/keys.png" alt="Arrow keys from a computer keyboard" />
+                    </figure>
                     <audio loop>
                         <source src="media/back1.mp3" type="audio/mpeg">
                     </audio>""" % session_store.get('username')

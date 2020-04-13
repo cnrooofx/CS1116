@@ -180,15 +180,10 @@ function move(character) {
         grid[character.y][character.x] = 4
     }
 }
-function check_around(next_pos, next_x, next_y) {
-    if (next_pos === 6 && player.silver_key) {
-        grid[next_y][next_x] = 7;
-    } else if (next_pos === 9 && player.gold_key) {
-        // key 1
-        grid[next_y][next_x] = 7;
-    } else if (next_pos === 10) {
+function check_around(next_pos) {
+    if (next_pos === 10) {
         // scroll
-        update_score(100);
+        update_score(player.health);
         player.move_down = false;
         player.move_up = false;
         player.move_left = false;
@@ -199,14 +194,14 @@ function check_around(next_pos, next_x, next_y) {
     } else if (next_pos === 2) {
         // key 1
         player.silver_key = true;
-        update_score(25);
+        update_score(5);
     } else if (next_pos === 3) {
         // key 2
         player.gold_key = true;
-        update_score(50);
+        update_score(10);
     } else if (next_pos === 8) {
         // coin
-        update_score(5);
+        update_score(25);
     }
 }
 function damage(character) {
