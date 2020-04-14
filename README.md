@@ -38,3 +38,16 @@ Web Development II
   - Drawing with connecting points
 - Exercise B
   - Bouncing balls
+
+## Lab 6
+
+- Snake
+
+## Lab 7 - Continuous Assessment
+
+- a-MAZE-ing game
+- Leaderboard
+- Account System
+  - Register w/ email
+  - Change Password
+  - Delete Account
