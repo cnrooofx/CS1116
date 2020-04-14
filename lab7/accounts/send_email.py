@@ -11,10 +11,10 @@ def password_email(username, email, password):
     message = MIMEMultipart('alternative')
     message["To"] = email
     message["From"] = sender_email
-    message["Subject"] = "Complete your registration"
+    message["Subject"] = "Complete your a-MAZE-ing registration"
     plain_text = """Hey %s,
 
-    Thank you for registering.
+    Thank you for registering to play a-MAZE-ing.
     Your password is:
 
     %s
@@ -30,7 +30,7 @@ def password_email(username, email, password):
     <html>
         <body>
             <p>Hey %s,<br>
-                Thank you for registering.</p>
+                Thank you for registering to play a-MAZE-ing.</p>
         <p>Your password is:</p>
 
         <code>%s</code>
@@ -59,10 +59,10 @@ def reset_email(username, email, code):
     message = MIMEMultipart('alternative')
     message["To"] = email
     message["From"] = sender_email
-    message["Subject"] = "Password Reset"
+    message["Subject"] = "a-MAZE-ing Password Reset"
     plain_text = """Hey %s,
 
-    A password reset has been requested.
+    A password reset has been requested for the a-MAZE-ing game.
 
     Your code is:
 
@@ -77,7 +77,7 @@ def reset_email(username, email, code):
     <html>
         <body>
             <p>Hey %s,<br>
-                A password reset has been requested.</p>
+                A password reset has been requested for the a-MAZE-ing game.</p>
         <p>Your code is:</p>
 
         <code>%s</code>

@@ -146,7 +146,7 @@ li {
 }
 canvas {
     background-color: var(--black);
-    border: 0.5em solid #000;
+    border: 0.5em solid var(--black);
     margin: 1em;
 }
 input {
@@ -186,6 +186,9 @@ th {
 }
 td ~ td, th ~ th {
     border-left: 0.1em solid #333;
+}
+tr:nth-child(2n) {
+    background-color: rgba(214, 212, 212, 0.5);
 }
 
 /* Media Queries */
@@ -230,8 +233,5 @@ td ~ td, th ~ th {
     }
     header {
         border-width: 0 0.5em 0.5em 0.5em;
-    }
-    figure {
-        display: inline;
     }
 }

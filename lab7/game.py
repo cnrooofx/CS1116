@@ -54,51 +54,49 @@ try:
                         </figcaption>
                         <img src="media/keys.png" alt="Arrow keys from a computer keyboard" />
                     </figure>
-                    <audio loop>
-                        <source src="media/back1.mp3" type="audio/mpeg">
+                    <audio src="media/back1.mp3" loop>
                     </audio>""" % session_store.get('username')
                 footer = """<footer>
-                    <small>
-                        Sprites from OpenGameArt.org courtesy of <a href="https://www.patreon.com/elthen">Elthen</a> &vert; Royalty Free Music by <a href="https://patrickdearteaga.com/royalty-free-music/">Patrick de Artega</a>
-                    </small>
-                </footer>"""
+            <small>
+                Sprites from OpenGameArt.org courtesy of <a href="https://www.patreon.com/elthen">Elthen</a> &vert; Royalty Free Music by <a href="https://patrickdearteaga.com/royalty-free-music/">Patrick de Artega</a>
+            </small>
+        </footer>"""
             session_store.close()
 except IOError:
     result = '<p>Sorry! We are experiencing problems at the moment. Please call back later.</p>'
 
-print("""
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="utf-8" />
-            <link rel="stylesheet" href="styles.css" />
-            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <title>Play</title>
+print("""<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="styles.css" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <title>Play</title>
+        %s
+    </head>
+    <body>
+        <header>
+            <h1>a-MAZE-ing</h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="">Play</a>
+                    </li>
+                    <li>
+                        <a href="leaderboard.py">Leaderboard</a>
+                    </li>
+                    <li>
+                        <a href="account.py">Account</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
             %s
-        </head>
-        <body>
-            <header>
-                <h1>a-MAZE-ing</h1>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a href="">Play</a>
-                        </li>
-                        <li>
-                            <a href="leaderboard.py">Leaderboard</a>
-                        </li>
-                        <li>
-                            <a href="account.py">Account</a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-            <main>
-                %s
-            </main>
-            %s
-        </body>
-    </html>""" % (script, result, footer))
+        </main>
+        %s
+    </body>
+</html>""" % (script, result, footer))

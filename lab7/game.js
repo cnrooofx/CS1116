@@ -317,7 +317,8 @@ function change_level(num) {
             monsters.push(monster2)
         }
     } else if (num === 3) {
-        audio_source.src = 'media/back2.mp3';
+        audio.setAttribute('src', 'media/back2.mp3');
+        audio.play();
         if (len > 0) {
             let monster1 = monsters[0];
             monster1.x = 19;
