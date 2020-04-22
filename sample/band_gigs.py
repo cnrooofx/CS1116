@@ -35,7 +35,7 @@ if len(form_data) != 0:
                                   WHERE bandname = %s""", bandname)
                 if cursor.rowcount == 0:
                     result += 'Error! There are no results for the band \'%s\'.' % bandname
-        if result = '':
+        if result == '':
             if gig_date and not bandname:
                 cursor.execute("""SELECT * FROM gigs
                                   WHERE gig_date >= %s""", valid_date)
@@ -64,9 +64,6 @@ if len(form_data) != 0:
         connection.close()
     except db.Error:
         result = 'There seems to be a problem at the moment. Please check back again later.'
-
-
-
 
 print("""<!DOCTYPE html>
         <html lang="en">
