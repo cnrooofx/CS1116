@@ -1,0 +1,134 @@
+I agree to take this exam in a manner that is consistent with University College Cork’s exam regulations, plagiarism policy and Code of Honour. I will take the exam without help from others and without helping others.
+
+Question 1
+----------
+
+print('Content-Type: text/html')
+print()
+
+form_data = FieldStorage()
+
+bandname = ''
+gig_date = ''
+result = ''
+
+if len(form_data) != 0:
+    bandname = escape(form_data.getfirst('bandname', '').strip())
+    gig_date = escape(form_data.getfirst('gig_date', '').strip())
+    try:
+        valid_date = strptime(gig_date, '%Y-%m-%d')
+        connection = db.connect('my_server', 'me', 'my_password', 'my_db')
+        cursor = connection.cursor(db.cursors.DictCursor)
+        if gig_date and not bandname:
+            cursor.execute("""SELECT *
+                              FROM gigs
+                              WHERE gig_date >= %s""", valid_date)
+            result = """<table>
+                        <tr>
+                            <th scope="col">Band Name</th>
+                            <th scope="col">Gig Date</th>
+                        </tr>"""
+            for row in cursor.fetchall():
+                result += """<tr>
+                                <td>%s</td>
+                                <td>%s</td>
+                            </tr>""" % (row['bandname'], row['gig_date'])
+            result += '</table>'
+        else:
+            cursor.execute("""SELECT *
+                              FROM gigs
+                              WHERE bandname = %s""", bandname)
+            if cursor.rowcount != 0:
+                if gig_date:
+                    cursor.execute("""SELECT *
+                                      FROM gigs
+                                      WHERE bandname = %s
+                                      AND gig_date >= %s""", bandname, valid_date)
+                result = """<table>
+                            <tr>
+                                <th scope="col">Band Name</th>
+                                <th scope="col">Gig Date</th>
+                            </tr>"""
+                for row in cursor.fetchall():
+                    result += """<tr>
+                                    <td>%s</td>
+                                    <td>%s</td>
+                                </tr>""" % (row['bandname'], row['gig_date'])
+                result += '</table>'
+            else:
+                result = 'Error! There are no results for the band \'%s\'.' % bandname
+        cursor.close()
+        connection.close()
+    except db.Error:
+        result = 'There seems to be a problem at the moment. Please check back later.'
+    except ValueError:
+        result = 'Error! Please enter a valid date in the form \'YYYY-MM-DD\''
+
+
+Question 2
+----------
+
+let feet_input;
+let feet_span;
+let inches_input;
+let inches_span;
+let metres_box;
+let form_element;
+let feet_msg;
+let inches_msg;
+let feet_int;
+let inches_int;
+let metres_int;
+
+document.addEventListener('DOMContentLoaded', init, false);
+
+function init() {
+    feet_input = document.getElementById('feet');
+    feet_span = document.getElementById('message1');
+    inches_input = document.getElementById('inches');
+    inches_span = document.getElementById('message2');
+    metres_box = document.getElementById('metres');
+    form_element = document.querySelector('form');
+    form_element.addEventListener('submit', convert_to_metres, false);
+    feet_input.addEventListener('change', validate_input, false);
+    inches_input.addEventListener('change', validate_input, false);
+}
+
+function validate_input(event) {
+    feet_msg = check_for_int(feet_input.value, 0, 8);
+    inches_msg = check_for_int(inches_input.value, 0, 11);
+    feet_span.innerHTML = feet_msg;
+    inches_span.innerHTML = inches_msg;
+}
+
+function convert_to_metres(event) {
+    feet_msg = check_for_int(feet_input.value, 0, 8);
+    inches_msg = check_for_int(inches_input.value, 0, 11);
+    feet_span.innerHTML = feet_msg;
+    inches_span.innerHTML = inches_msg;
+    if (! feet_msg && ! inches_msg) {
+        feet_int = Number(feet_input.value);
+        inches_int = Number(inches_input.value);
+        metres_int = ((feet_int * 12) + inches_int) * 0.0254;
+        metres_box.value = metres_int;
+    }
+    event.preventDefault();
+}
+
+function check_for_int(text, minimum, maximum) {
+    let trimmed_text = text.trim();
+    if (trimmed_text === "") {
+        return "Required";
+    }
+    let number = ~~Number(trimmed_text);
+    if (String(number) !== trimmed_text) {
+        return "Must be a whole number";
+    }
+    if (number < minimum) {
+        return "Must be no less than " + minimum;
+    }
+    if (number > maximum) {
+        return "Must be no greater than " + maximum;
+    }
+    return '';
+}
