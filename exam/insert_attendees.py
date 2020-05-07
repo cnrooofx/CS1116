@@ -1,7 +1,12 @@
-I agree to take this exam in a manner that is consistent with University College Cork’s exam regulations, plagiarism policy and Code of Honour. I will take the exam without help from others and without helping others.
+#! /usr/local/bin/python3
 
-Question 1
-----------
+from cgitb import enable
+enable()
+
+from cgi import FieldStorage
+from html import escape
+from time import strptime
+import pymysql as db
 
 print('Content-Type: text/html')
 print()
@@ -47,59 +52,12 @@ try:
 except db.Error:
     outcome = 'Sorry! There seems to be a problem at the moment. Please try again later.'
 
-
-
-
-Question 2
-----------
-
-let bill;
-let message;
-let small_tip;
-let large_tip;
-let tip;
-let form_element;
-
-document.addEventListener("DOMContentLoaded", init, false);
-
-function init() {
-    bill = document.querySelector('#bill');
-    message = document.querySelector('#message');
-    small_tip = document.querySelector('#small');
-    large_tip = document.querySelector('#large');
-    tip = document.querySelector('#tip');
-    form_element = document.querySelector('form');
-    form_element.addEventListener('submit', calculate, false);
-}
-
-function calculate(event) {
-    let bill_amount = bill.value
-    let error = check_for_pos_int(bill_amount);
-    message.innerHTML = error;
-    if (! error) {
-        let bill_int = Number(bill_amount);
-        let outcome;
-        if (large_tip.checked) {
-            outcome = (0.15 * bill_int);
-        } else {
-            outcome = (0.10 * bill_int);
-        }
-        tip.value = outcome;
-    }
-    event.preventDefault();
-}
-
-function check_for_pos_int(text) {
-    let trimmed_text = text.trim();
-    if (trimmed_text === "") {
-        return "The bill must be a number greater than 0";
-    }
-    let number = Number(trimmed_text);
-    if (String(number) !== trimmed_text) {
-        return "The bill must be a number greater than 0";
-    }
-    if (number < 0) {
-        return "The bill must be a number greater than 0";
-    }
-    return "";
-}
+print("""<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" /> <title>Lecture Attendance</title>
+        </head>
+        <body>
+            %s
+        </body>
+    </html>""" % (outcome))
